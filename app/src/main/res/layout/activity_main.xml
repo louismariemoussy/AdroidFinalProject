@@ -36,8 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:showWeekNumber="false"
-        android:textColor="@color/offwhite"
-        android:background="@color/offwhite"
+
         />
 
         <android.widget.Button
