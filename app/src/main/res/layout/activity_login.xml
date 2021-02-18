@@ -19,12 +19,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="20pt"
-        android:text="Who are you ?" />
+        android:text="Who are you ?"
+        android:textColor="@color/offwhite"/>
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:textColor="@color/offwhite"/>
 
 </LinearLayout>
 
