@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/monItem1"
+        android:title="@string/rdv"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/monItem2"
+        android:title="@string/évenement"
+        app:showAsAction="always" />
+
+</menu>

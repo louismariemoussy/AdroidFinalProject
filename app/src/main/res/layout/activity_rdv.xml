@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/roundedbutton"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    >
+
+    <android.widget.Button
+        android:id="@+id/CloseBTN"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/ic_cancel"
+        android:gravity="right"
+        android:padding="30dp"
+        app:icon="@drawable/ic_add"></android.widget.Button>
+
+
+
+    <EditText
+        android:id="@+id/title_rdv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:singleLine="true"
+        android:lines="1"
+        android:maxLines="1"
+        android:fallbackLineSpacing="false"
+        android:textSize="30dp"
+        android:inputType="textCapSentences"
+        android:padding="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        >
+
+    </EditText>
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="50dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+    <TextView
+        android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:text=""
+    android:id="@+id/txtStartDate"
+    android:layout_above="@+id/btnSetDate"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="20dp"
+    android:gravity="left"
+    android:textSize="10dp"
+        android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/txtStartTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:paddingRight="25pt"
+            android:layout_weight="1"
+            android:text=""
+            ></TextView>
+
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/txtEndDate"
+            android:layout_above="@+id/btnSetDate"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="left"
+            android:textSize="10dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/txtEndTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="10dp"
+            android:paddingRight="25pt"
+            android:layout_weight="1"
+            android:text=""></TextView>
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="left"
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        >
+    <Switch
+        android:id="@+id/Familywitch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/family_event"
+        android:checked="false"
+        android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="left"
+        android:paddingTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:id="@+id/FamilyCheck"
+        android:text="@string/family_check"
+        android:textSize="20dp"
+        android:textColor="@color/offwhite"
+        ></TextView>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:id="@+id/FamilySelected"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"></TextView>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="left"
+        android:paddingTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/note"
+            android:text="@string/description"
+            android:textSize="20dp"
+            android:textColor="@color/offwhite"
+            ></TextView>
+
+
+
+    </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:id="@+id/description"
+        android:maxLength="200"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:maxLines="5"
+        ></EditText>
+
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:paddingTop="50dp"
+
+        >
+
+    </LinearLayout>
+
+
+
+    <android.widget.Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addBtn"
+        android:background="@drawable/roundedbutton"
+        android:text="Add"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        ></android.widget.Button>
+
+    </LinearLayout>
+
