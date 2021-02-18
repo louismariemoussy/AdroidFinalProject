@@ -29,7 +29,7 @@ public class login extends ListActivity {
 
         helper = new myDbAdapter(this);
 
-        //long id = helper.insertData("LM","0672706509");
+        long id = helper.insertData("LM","0672706509");
         //if(id<=0)
         //{
         // /   Message.message(getApplicationContext(),"Insertion Unsuccessful");
