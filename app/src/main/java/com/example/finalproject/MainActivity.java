@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Message.message(getApplicationContext(),listeDeroulante.getItemAtPosition(user_id_list).toString().trim());
         int user_id_db = Integer.parseInt(helper.getIdByName(listeDeroulante.getItemAtPosition(user_id_list).toString().trim()));
+        Message.message(getApplicationContext(),"user id db"+helper.getIdByName(listeDeroulante.getItemAtPosition(user_id_list).toString().trim()));
 
 
         //btn +
@@ -105,9 +106,24 @@ public class MainActivity extends AppCompatActivity {
 
         CalendarView mCalendarView = findViewById(R.id.calendarView);
 
+        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+
+                                                    //GET CLECKED DATE on the calendar view
+                                                  @Override
+                                                  public void onSelectedDayChange(CalendarView arg0, int year, int month,
+                                                                                  int date) {
+                                                      Toast.makeText(getApplicationContext(), date + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
+                                                  }
+                                              });
+
+
+
+
+
         String rdv = helper.getAllRDV();
 
-        Toast.makeText(MainActivity.this, "" +rdv, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "" +rdv, Toast.LENGTH_LONG).show();
 
         String links = helper.getAllLink();
 

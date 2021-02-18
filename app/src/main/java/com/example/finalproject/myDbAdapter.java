@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -103,9 +104,10 @@ class myDbAdapter {
         while (cursor.moveToNext())
         {
             //int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));
-            int id =cursor.getColumnIndex(myDbHelper.UID);
+            int idu =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));//https://stackoverflow.com/questions/16832401/sqlite-auto-increment-not-working
+            String sidu = Integer.toString(idu);
             //String  password =cursor.getString(cursor.getColumnIndex(myDbHelper.PHONE));
-            buffer.append( id);
+            buffer.append(idu);
         }
         return buffer.toString();
     }
@@ -198,7 +200,7 @@ class myDbAdapter {
         //contentValues.put(myDbHelper., );
         //LINK TABLE DATA
 
-        for(int t =0; t<userID.size();t++){
+        for(int t =0; t < userID.size(); t++){
             contentValues.put(myDbHelper.RDV_ID,rdvID);
             contentValues.put(myDbHelper.USER_ID,userID.get(t).toString());
             long id = dbb.insert(myDbHelper.TABLE_NAME_LINK, null , contentValues);
@@ -232,15 +234,23 @@ class myDbAdapter {
     public String getAllRDV()
     {
         SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myDbHelper.TITLE, myDbHelper.START_DATE};
+        String[] columns = {myDbHelper.TITLE, myDbHelper.START_DATE, myDbHelper.RID, myDbHelper.CREATOR_ID, myDbHelper.END_DATE, myDbHelper.OBJECT, myDbHelper.DESCR};
         Cursor cursor =db.query(myDbHelper.TABLE_NAME_RDV,columns,null,null,null,null,null);
         StringBuffer buffer= new StringBuffer();
+        //buffer.append(cursor.getColumnCount());
         while (cursor.moveToNext())
         {
 
             String title =cursor.getString(cursor.getColumnIndex(myDbHelper.TITLE));
             String  sdate =cursor.getString(cursor.getColumnIndex(myDbHelper.START_DATE));
-            buffer.append( "Title: " + title + "  Start: " + sdate +" \n");
+            String rid =cursor.getString(cursor.getColumnIndex(myDbHelper.RID));
+            String cid =cursor.getString(cursor.getColumnIndex(myDbHelper.CREATOR_ID));
+            String edate =cursor.getString(cursor.getColumnIndex(myDbHelper.END_DATE));
+            String obj =cursor.getString(cursor.getColumnIndex(myDbHelper.OBJECT));
+            String des =cursor.getString(cursor.getColumnIndex(myDbHelper.DESCR));
+
+
+            buffer.append( "Title: " + title +  "  RDV id: " + rid + "  Creator: " + cid  +" \n" + "  Start: " + sdate + "  End: " + edate +" \n" + "  Object: " + obj + "  Description: " + des  +" \n");
         }
         return buffer.toString();
     }

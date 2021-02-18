@@ -44,6 +44,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
     String sql_start;
     String sql_end;
 
+    String LIST_family_selected[];
+
 
 
     private ArrayList<Integer> AllName;
@@ -132,6 +134,10 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         });
 
 
+        //Toast user id
+        Toast.makeText(RdvActivity.this, "User id "+ user_id_db, Toast.LENGTH_SHORT).show();
+
+
         // ADD IN THE DB
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +167,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                     //get if a family event or get all the people
                     //insert in LINK TABLE   createLINK(int rdvID, String userID[])
                     if(fam == true){
-                        //get all the name
+                        //get all the  name
                         String name = helper.getName();
                         ArrayList<String> UserList = new ArrayList<>();
                         String[] all = (name.replaceAll("\\s+$", "")).split(" ");
@@ -180,20 +186,29 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
 
 
-//NEED TO ADD THE AUTHOR IN THE LIST TOO
+
                     }else{
-                        //get the name selected
+                        //get the  selected name
                         ArrayList people_name =new ArrayList();
                         for(int i = 0; i<AllName.size();i++) {
                             people_name.add(nameList[AllName.get(i)]);
+
                         }
                         //get all the ids
                         ArrayList allID = new ArrayList();
                         ArrayList<String> UserList = new ArrayList<>();
-                        for(int i=0; i<UserList.size(); i++)
-                            allID.add(helper.getIdByName(UserList.get(i)));
+
+                        //LIST of selected name
+                        //LIST_family_selected
+
+                        allID.add(user_id_db);//add user id
+                        for(int i=0; i<people_name.size(); i++)
+                            allID.add(helper.getIdByName(LIST_family_selected[i]));
+
+                        allID.removeAll(Arrays.asList(null,""));//remove blank
 
                         helper.createLINK((int)rdvID,allID);
+                        Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
                         Toast.makeText(RdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
                         finish();
 
@@ -207,6 +222,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
             }
         });
 
+//
 
         //Open start date selector
         start_date_view.setOnClickListener(new View.OnClickListener() {
@@ -255,7 +271,23 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 start_time_view.setText(sHour + ":" + sMinute);
-                                sql_start_time = sHour + ":" + sMinute;
+
+
+                                //Transform selected time to SQLite DATETIME format HH:mm:ss
+
+                                String StringHour = Integer.toString(sHour);
+                                String StringMinute = Integer.toString(sMinute);
+                                if( StringHour.length() == 1){//if month = 1 for january then add 0 to have 01
+                                    StringHour = "0"+StringHour;
+                                }
+                                if(StringMinute.length() == 1){//if day = 1 then add 0 to have 01
+                                    StringMinute = "0"+StringMinute; }
+
+
+
+                                sql_start_time = StringHour + ":" + StringMinute+":00";
+
+
                             }
                         }, hour, minutes, true);
                 picker.show();
@@ -276,7 +308,22 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 end_time_view.setText(sHour + ":" + sMinute);
-                                sql_end_time = sHour + ":" + sMinute;
+
+
+
+                                //Transform selected time to SQLite DATETIME format HH:mm:ss
+
+                                String StringHour = Integer.toString(sHour);
+                                String StringMinute = Integer.toString(sMinute);
+                                            if( StringHour.length() == 1){//if month = 1 for january then add 0 to have 01
+                                                StringHour = "0"+StringHour;
+                                            }
+                                            if(StringMinute.length() == 1){//if day = 1 then add 0 to have 01
+                                                StringMinute = "0"+StringMinute; }
+
+
+
+                                sql_end_time = StringHour + ":" + StringMinute+":00";
                             }
                         }, hour, minutes, true);
                 picker.show();
@@ -341,6 +388,9 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                             }
                         }
                         family_selected.setText(item.replace("\n", "").replace("\r", ""));
+                         LIST_family_selected = family_selected.getText().toString().split(",");
+                        //Toast.makeText(RdvActivity.this, "Fam selected: "+LIST_family_selected[0], Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(RdvActivity.this, "Fam selected: "+user, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -410,11 +460,32 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
         if(a==1){//date de début
             start_date_view.setText(selectedDate);
-            sql_start_date = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime());//dd/mm/yyyy
+
+            //Transform selected date to SQLite DATETIME format yyyy-MM-DD
+            String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
+            if(date[1].length() == 1){//if month = 1 for january then add 0 to have 01
+                date[1] = "0"+date[1];
+            }
+            if(date[0].length() == 1){//if day = 1 then add 0 to have 01
+                date[0] = "0"+date[1];
+            }
+
+            sql_start_date = date[2]+"-"+date[1]+"-"+date[0];//dd/mm/yyyy
 
         }else{//date de fin
             end_date_view.setText(selectedDate);
-            sql_end_date = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime());//dd/mm/yyyy
+
+            //Transform selected date to SQLite DATETIME format yyyy-MM-DD
+            String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
+            if(date[1].length() == 1){//if month = 1 for january then add 0 to have 01
+                date[1] = "0"+date[1];
+            }
+            if(date[0].length() == 1){//if day = 1 then add 0 to have 01
+                date[0] = "0"+date[1];
+            }
+
+
+            sql_end_date = date[2]+"-"+date[1]+"-"+date[0];
             //Toast.makeText(RdvActivity.this, "SQL end dare "+sql_end_date, Toast.LENGTH_SHORT).show();
 
 
