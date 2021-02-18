@@ -15,4 +15,8 @@
         <item name="colorAccent">@color/offwhite</item>
         <item name="colorPrimaryDark">@color/offwhite</item>
     </style>
+    <style name="Theme.MonPremierProjet.Popme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
 </resources>

@@ -25,6 +25,7 @@
 
 
 
+
     <EditText
         android:id="@+id/title_rdv"
         android:layout_width="match_parent"
@@ -39,9 +40,25 @@
         android:padding="20dp"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
+        android:textColorHint="@color/cardview_shadow_start_color"
+        android:textColor="@color/black"
         >
 
     </EditText>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:orientation="vertical">
+
 
 
 
@@ -64,7 +81,8 @@
     android:layout_marginBottom="20dp"
     android:gravity="left"
     android:textSize="10dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/txtStartTime"
@@ -75,9 +93,11 @@
             android:paddingRight="25pt"
             android:layout_weight="1"
             android:text=""
+            android:textColor="@color/black"
             ></TextView>
 
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,7 +119,8 @@
             android:layout_marginBottom="20dp"
             android:gravity="left"
             android:textSize="10dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/txtEndTime"
@@ -109,7 +130,8 @@
             android:textSize="10dp"
             android:paddingRight="25pt"
             android:layout_weight="1"
-            android:text=""></TextView>
+            android:text=""
+            android:textColor="@color/black"></TextView>
 
     </LinearLayout>
 
@@ -129,9 +151,13 @@
         android:layout_height="wrap_content"
         android:text="@string/family_event"
         android:checked="false"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textColor="@color/black"/>
 
     </LinearLayout>
+
+
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
@@ -148,9 +174,11 @@
        android:id="@+id/FamilyCheck"
         android:text="@string/family_check"
         android:textSize="20dp"
+        android:textColor="@color/black"
         ></TextView>
 
     </LinearLayout>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -159,7 +187,8 @@
         android:id="@+id/FamilySelected"
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
-        android:textColor="@color/cardview_dark_background"></TextView>
+        android:textColor="@color/material_on_background_disabled"
+        ></TextView>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -177,12 +206,14 @@
             android:id="@+id/note"
             android:text="@string/description"
             android:textSize="20dp"
+            android:textColor="@color/black"
 
             ></TextView>
 
 
 
     </LinearLayout>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -192,6 +223,8 @@
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
         android:maxLines="5"
+        android:textColor="@color/black"
+        android:textColorHint="@color/material_on_primary_emphasis_high_type"
         ></EditText>
 
 
@@ -220,7 +253,11 @@
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:layout_gravity="center_vertical|center_horizontal"
+        android:textColor="@color/black"
         ></android.widget.Button>
 
-    </LinearLayout>
 
+    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

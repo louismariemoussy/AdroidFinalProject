@@ -175,6 +175,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
                             helper.createLINK((int)rdvID,allID);
 
+                        Toast.makeText(RdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
+                        finish();
 
 
 
@@ -192,9 +194,13 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                             allID.add(helper.getIdByName(UserList.get(i)));
 
                         helper.createLINK((int)rdvID,allID);
+                        Toast.makeText(RdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
+                        finish();
 
 
                     }
+
+
                 }
 
 
@@ -402,11 +408,11 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
         // Set the textview to the selectedDate String
 
-        if(a==1){
+        if(a==1){//date de début
             start_date_view.setText(selectedDate);
             sql_start_date = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime());//dd/mm/yyyy
 
-        }else{
+        }else{//date de fin
             end_date_view.setText(selectedDate);
             sql_end_date = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime());//dd/mm/yyyy
             //Toast.makeText(RdvActivity.this, "SQL end dare "+sql_end_date, Toast.LENGTH_SHORT).show();

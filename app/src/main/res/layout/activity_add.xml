@@ -8,6 +8,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     >
+
+
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -18,14 +21,22 @@
         />
 
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_weight="1">
+
+
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         >
+
 
 
 
@@ -92,10 +103,15 @@
             android:text="@string/adduser"
             android:layout_marginTop="100dp"
             android:padding="5dp"
+            android:textColor="@color/black"
             android:layout_gravity="center_vertical|center_horizontal"
             ></android.widget.Button>
 
+
+
     </LinearLayout>
+    </ScrollView>
+
 
 
 </LinearLayout>

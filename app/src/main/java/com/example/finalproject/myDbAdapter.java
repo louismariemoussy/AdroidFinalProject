@@ -171,19 +171,20 @@ class myDbAdapter {
     public long insertRDV(String title, String start_date, String end_date, boolean family,  int creator, String description)
     {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
+        ContentValues contentValuesRDV = new ContentValues();
 
 
 
         //RDV TABLE DATA
-        contentValues.put(myDbHelper.CREATOR_ID,creator);
-        contentValues.put(myDbHelper.STARTING_DATE,start_date);
-        contentValues.put(myDbHelper.END_DATE,end_date);
-        contentValues.put(myDbHelper.OBJECT,family);
-        contentValues.put(myDbHelper.DESCR,description);
+        contentValuesRDV.put(myDbHelper.CREATOR_ID,creator);
+        contentValuesRDV.put(myDbHelper.START_DATE,start_date);
+        contentValuesRDV.put(myDbHelper.END_DATE,end_date);
+        contentValuesRDV.put(myDbHelper.OBJECT,family);
+        contentValuesRDV.put(myDbHelper.DESCR,description);
+        contentValuesRDV.put(myDbHelper.TITLE,title);
         //contentValues.put(myDbHelper., );
 
-        long id = dbb.insert(myDbHelper.TABLE_NAME_USER, null , contentValues);
+        long id = dbb.insert(myDbHelper.TABLE_NAME_RDV, null , contentValuesRDV);
 
         return id;
     }
@@ -228,7 +229,40 @@ class myDbAdapter {
         return buffer.toString();
     }
 
+    public String getAllRDV()
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        String[] columns = {myDbHelper.TITLE, myDbHelper.START_DATE};
+        Cursor cursor =db.query(myDbHelper.TABLE_NAME_RDV,columns,null,null,null,null,null);
+        StringBuffer buffer= new StringBuffer();
+        while (cursor.moveToNext())
+        {
+
+            String title =cursor.getString(cursor.getColumnIndex(myDbHelper.TITLE));
+            String  sdate =cursor.getString(cursor.getColumnIndex(myDbHelper.START_DATE));
+            buffer.append( "Title: " + title + "  Start: " + sdate +" \n");
+        }
+        return buffer.toString();
+    }
+
     //-----------------------------------LINK-------------------------------------------------------
+
+    public String getAllLink()
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        String[] columns = {myDbHelper.RDV_ID, myDbHelper.USER_ID};
+        Cursor cursor =db.query(myDbHelper.TABLE_NAME_LINK,columns,null,null,null,null,null);
+        StringBuffer buffer= new StringBuffer();
+        while (cursor.moveToNext())
+        {
+
+            String rid =cursor.getString(cursor.getColumnIndex(myDbHelper.RDV_ID));
+            String  uid =cursor.getString(cursor.getColumnIndex(myDbHelper.USER_ID));
+            buffer.append( "RDV id: " + rid + "  User id: " + uid +" \n");
+        }
+        return buffer.toString();
+    }
+
 
     static class myDbHelper extends SQLiteOpenHelper
     {
@@ -249,12 +283,12 @@ class myDbAdapter {
         private static final String RID="_id";     // Column I (Primary Key)
         private static final String CREATOR_ID = "uid";    //Column II
         private static final String TITLE = "title";    //Column III
-        private static final String STARTING_DATE= "date";    // Column IV
-        private static final String END_DATE= "date";    // Column V
+        private static final String START_DATE= "startdate";    // Column IV
+        private static final String END_DATE= "enddate";    // Column V
         private static final String OBJECT= "object";    // Column VI
         private static final String DESCR= "descr";    // Column VII description
         private static final String CREATE_TABLE2 = "CREATE TABLE "+TABLE_NAME_RDV+
-                " ("+RID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+CREATOR_ID+" NUMBER ,"+ TITLE+" VARCHAR(225),"+ STARTING_DATE+" DATETIME,"+ END_DATE+" DATETIME,"+OBJECT+" BOOLEAN,"+DESCR+" VARCHAR(225));";
+                " ("+RID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+CREATOR_ID+" NUMBER ,"+ TITLE+" VARCHAR(225),"+ START_DATE+" DATETIME,"+ END_DATE+" DATETIME,"+OBJECT+" BOOLEAN,"+DESCR+" VARCHAR(225));";
         private static final String DROP_TABLE_RDV ="DROP TABLE IF EXISTS "+TABLE_NAME_RDV;
 
         //LINK TABLE
@@ -292,6 +326,7 @@ class myDbAdapter {
                 Message.message(context,"OnUpgrade");
                 db.execSQL(DROP_TABLE_USER);
                 db.execSQL(DROP_TABLE_RDV);
+                db.execSQL(DROP_TABLE_LINK);
                 onCreate(db);
             }catch (Exception e) {
                 Message.message(context,""+e);

@@ -6,8 +6,10 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -96,6 +98,22 @@ public class MainActivity extends AppCompatActivity {
 
 
             });
+
+
+
+        //-----------------------------------------------CALENDAR VIEW
+
+        CalendarView mCalendarView = findViewById(R.id.calendarView);
+
+        String rdv = helper.getAllRDV();
+
+        Toast.makeText(MainActivity.this, "" +rdv, Toast.LENGTH_SHORT).show();
+
+        String links = helper.getAllLink();
+
+        Toast.makeText(MainActivity.this, "" +links, Toast.LENGTH_SHORT).show();
+
+
         }
 
 
