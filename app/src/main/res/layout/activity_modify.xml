@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/black"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     >
@@ -16,7 +15,6 @@
         android:gravity="center"
         android:textSize="20pt"
         android:text="Modify profil"
-        android:textColor="@color/offwhite"
         />
 
 
@@ -26,9 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/black"
         android:gravity="center"
-        android:textColor="@color/offwhite"
         >
 
         <Spinner android:layout_width="wrap_content"
@@ -39,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/phoneView"
-            android:textColor="@color/offwhite"
             ></TextView>
 
 
@@ -53,8 +48,6 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="64dp"
             android:layout_marginEnd="32dp"
-            android:textColor="@color/offwhite"
-            app:boxStrokeColor="@color/offwhite"
 
             >
 
@@ -68,8 +61,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:fallbackLineSpacing="false"
-                android:inputType="textCapSentences"
-                android:textColorHint="@color/offwhite"/>
+                android:inputType="textCapSentences"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,8 +87,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:fallbackLineSpacing="false"
-                android:inputType="phone"
-                android:textColor="@color/offwhite"/>
+                android:inputType="phone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +99,6 @@
             android:id="@+id/ModifyOk"
             android:background="@drawable/roundedbutton"
             android:text="Done"
-            android:textColor="@color/offwhite"
             android:layout_marginTop="100dp"
             android:padding="5dp"
             android:layout_gravity="center_vertical|center_horizontal"

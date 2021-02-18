@@ -9,7 +9,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:gravity="center_horizontal"
-    android:textColor="@color/offwhite"
     >
 
     <android.widget.Button
@@ -40,8 +39,6 @@
         android:padding="20dp"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
-        android:textColor="@color/offwhite"
-        android:textColorHint="@color/offwhite"
         >
 
     </EditText>
@@ -54,8 +51,7 @@
         android:orientation="horizontal"
         android:paddingTop="50dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:textColor="@color/offwhite">
+        android:paddingRight="20dp">
 
     <TextView
         android:layout_width="0dp"
@@ -68,8 +64,7 @@
     android:layout_marginBottom="20dp"
     android:gravity="left"
     android:textSize="10dp"
-        android:layout_weight="1"
-        android:textColor="@color/offwhite"/>
+        android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/txtStartTime"
@@ -80,7 +75,6 @@
             android:paddingRight="25pt"
             android:layout_weight="1"
             android:text=""
-            android:textColor="@color/offwhite"
             ></TextView>
 
     </LinearLayout>
@@ -92,7 +86,6 @@
         android:paddingTop="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
-        android:textColor="@color/offwhite"
         >
 
         <TextView
@@ -106,8 +99,7 @@
             android:layout_marginBottom="20dp"
             android:gravity="left"
             android:textSize="10dp"
-            android:layout_weight="1"
-            android:textColor="@color/offwhite"/>
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/txtEndTime"
@@ -117,8 +109,7 @@
             android:textSize="10dp"
             android:paddingRight="25pt"
             android:layout_weight="1"
-            android:text=""
-            android:textColor="@color/offwhite"></TextView>
+            android:text=""></TextView>
 
     </LinearLayout>
 
@@ -138,8 +129,7 @@
         android:layout_height="wrap_content"
         android:text="@string/family_event"
         android:checked="false"
-        android:layout_weight="1"
-        android:textColor="@color/offwhite"/>
+        android:layout_weight="1"/>
 
     </LinearLayout>
 
@@ -158,7 +148,6 @@
        android:id="@+id/FamilyCheck"
         android:text="@string/family_check"
         android:textSize="20dp"
-        android:textColor="@color/offwhite"
         ></TextView>
 
     </LinearLayout>
@@ -188,7 +177,6 @@
             android:id="@+id/note"
             android:text="@string/description"
             android:textSize="20dp"
-            android:textColor="@color/offwhite"
 
             ></TextView>
 
