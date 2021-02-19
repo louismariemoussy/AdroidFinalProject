@@ -7,6 +7,7 @@
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
+    android:background="@color/Raisin_black"
     >
 
 
@@ -18,6 +19,7 @@
         android:gravity="center"
         android:textSize="20pt"
         android:text="@string/add"
+        android:textColor="@color/Deep_Champagne"
         />
 
 
@@ -77,6 +79,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="64dp"
             android:layout_marginEnd="32dp"
+            android:textColor="@color/Floral_White"
             >
 
             <!--this is the actual edit text which takes the input-->
@@ -89,7 +92,8 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:fallbackLineSpacing="false"
-                android:inputType="phone"/>
+                android:inputType="phone"
+                android:textColor="@color/Floral_White"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +107,7 @@
             android:text="@string/adduser"
             android:layout_marginTop="100dp"
             android:padding="5dp"
-            android:textColor="@color/black"
+            android:textColor="@color/Floral_White"
             android:layout_gravity="center_vertical|center_horizontal"
             ></android.widget.Button>
 

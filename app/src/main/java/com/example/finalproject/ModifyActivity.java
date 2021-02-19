@@ -64,7 +64,7 @@ public class ModifyActivity extends AppCompatActivity implements AdapterView.OnI
         Spinner choose_user = (Spinner)findViewById(R.id.choose_user);
         choose_user.setOnItemSelectedListener(this);
         ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1,
+                R.layout.simple_list_item_1_custom,
                 (name.replaceAll("\\s+$", "")).split(" "));
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

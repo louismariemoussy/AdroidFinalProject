@@ -215,21 +215,6 @@ class myDbAdapter {
 
 
     //-----------------------------------RDV--------------------------------------------------------
-    public String getRDVbyID(int id)
-    {
-        SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myDbHelper.NAME};
-        Cursor cursor =db.query(myDbHelper.TABLE_NAME_USER,columns,null,null,null,null,null);
-        StringBuffer buffer= new StringBuffer();
-        while (cursor.moveToNext())
-        {
-            //int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));
-            String name =cursor.getString(cursor.getColumnIndex(myDbHelper.NAME));
-            //String  password =cursor.getString(cursor.getColumnIndex(myDbHelper.PHONE));
-            buffer.append( name +" \n");
-        }
-        return buffer.toString();
-    }
 
     public String getAllRDV()
     {

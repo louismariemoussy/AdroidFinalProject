@@ -7,6 +7,7 @@
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
+    android:background="@color/Raisin_black"
     >
     <TextView
         android:id="@+id/textView"
@@ -15,6 +16,7 @@
         android:gravity="center"
         android:textSize="20pt"
         android:text="Delete profil"
+        android:textColor="@color/Deep_Champagne"
         />
 
 
@@ -25,11 +27,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+
         >
 
         <Spinner android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/choose_user"/>
+            android:id="@+id/choose_user"
+            android:textColor="@color/Deep_Champagne"
+            />
 
         <android.widget.Button
             android:layout_width="wrap_content"
@@ -40,7 +45,7 @@
             android:layout_marginTop="100dp"
             android:padding="5dp"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:textColor="@color/black"
+            android:textColor="@color/Floral_White"
             ></android.widget.Button>
 
     </LinearLayout>
