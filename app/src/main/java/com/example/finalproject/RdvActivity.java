@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -44,6 +45,9 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
     String sql_start;
     String sql_end;
 
+    Date startDate = new Date();
+    Date endDate = new Date();
+    Boolean sameDay=false;
     String LIST_family_selected[];
 
 
@@ -192,7 +196,6 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         ArrayList people_name =new ArrayList();
                         for(int i = 0; i<AllName.size();i++) {
                             people_name.add(nameList[AllName.get(i)]);
-
                         }
                         //get all the ids
                         ArrayList allID = new ArrayList();
@@ -270,6 +273,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                startDate.setHour(sHour);
+                                startDate.setMinute(sMinute);
                                 start_time_view.setText(sHour + ":" + sMinute);
 
 
@@ -307,6 +312,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                endDate.setHour(sHour);
+                                endDate.setMinute(sMinute);
                                 end_time_view.setText(sHour + ":" + sMinute);
 
 
@@ -460,6 +467,13 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
         if(a==1){//date de début
             start_date_view.setText(selectedDate);
+            sql_start_date = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime());//mm/dd/yyyy
+            Log.d("Selected start date", sql_start_date + ", " + sql_start_date.split("/")[2]);
+
+
+            startDate.setYear(Integer.parseInt(sql_start_date.split("/")[2]));
+            startDate.setDay(Integer.parseInt(sql_start_date.split("/")[1]));
+            startDate.setMonth(Integer.parseInt(sql_start_date.split("/")[0]));
 
             //Transform selected date to SQLite DATETIME format yyyy-MM-DD
             String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
@@ -487,15 +501,53 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
             sql_end_date = date[2]+"-"+date[1]+"-"+date[0];
             //Toast.makeText(RdvActivity.this, "SQL end dare "+sql_end_date, Toast.LENGTH_SHORT).show();
+            sql_end_date = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime());//mm/dd/yyyy
+            Log.d("Selected end date", sql_end_date);
 
+            endDate.setYear(Integer.parseInt(sql_end_date.split("/")[2]));
+            endDate.setDay(Integer.parseInt(sql_end_date.split("/")[1]));
+            endDate.setMonth(Integer.parseInt(sql_end_date.split("/")[0]));
+            if(dateConflict(endDate,startDate)){
+                sql_start_date=sql_end_date;
+                start_date_view.setText(selectedDate);
+                Log.d("Update date","Yes");
+            }else{
+                Log.d("Update date","No");
+            }
 
         }
+
 
 
 
     }
 
 
+    public Boolean dateConflict(Date startDate, Date endDate){
+        Log.d("End date ", startDate.getYear() + ", " + startDate.getMonth() + ", " + startDate.getDay());
+        Log.d("Start date ", endDate.getYear() + ", " + endDate.getMonth() + ", " + endDate.getDay());
+            if(startDate.getYear()<endDate.getYear()){
+                return true;
+            }else if (startDate.getYear()==endDate.getYear()){
+                if (startDate.getMonth()<endDate.getMonth()){
+                    return true;
+                }else if (startDate.getMonth()==endDate.getMonth()){
+                    if(startDate.getDay()<endDate.getDay()){
+                        return true;
+                    }else if(startDate.getDay()==endDate.getDay()){
+                        sameDay=true;
+                        return false;
+                    }
+                }
+            }
 
+            return false;
+    }
+
+    private void timeConflict(Date startDate, Date endDate){
+        if(startDate.getYear()<endDate.getYear()){
+
+        }
+    }
 
 }
