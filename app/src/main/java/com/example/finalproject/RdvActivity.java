@@ -174,16 +174,28 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         //get all the  name
                         String name = helper.getName();
                         ArrayList<String> UserList = new ArrayList<>();
-                        String[] all = (name.replaceAll("\\s+$", "")).split(" ");
-                        UserList = new ArrayList<String>();
-                        for(int i=0; i<all.length; i++)
-                            UserList.add(all[i]);
+                        ArrayList allNameFam = new ArrayList();
+                        String allNameString[]=(name.replace('\n', ' ').trim()).split(" ");
+
+                        for(int k = 0; k<allNameString.length;k++)
+                            allNameFam.add(allNameString[k]);
+                        allNameFam.removeAll(Arrays.asList(null,""));//remove blank
+                        //for(int k = 0; k<allNameFam.size();k++)
+                        //Toast.makeText(RdvActivity.this, "  allName: "+allNameFam.get(k).toString(), Toast.LENGTH_SHORT).show();
+
+
+
+                    //UserList = new ArrayList<String>();
+                        //for(int i=0; i<all.length; i++)
+                        //    UserList.add(all[i]);
                         //get all the ids
                         ArrayList allID = new ArrayList();
-                        for(int i=0; i<UserList.size(); i++)
-                            allID.add(helper.getIdByName(UserList.get(i)));
+                        for(int i=0; i<allNameFam.size(); i++)
+                            allID.add(helper.getIdByName(allNameFam.get(i).toString()));
+                        allID.removeAll(Arrays.asList(null,""));//remove blank
 
                             helper.createLINK((int)rdvID,allID);
+                        Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
 
                         Toast.makeText(RdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
                         finish();
@@ -201,7 +213,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         ArrayList allID = new ArrayList();
                         ArrayList<String> UserList = new ArrayList<>();
 
-                        //LIST of selected name
+                        //LIST of selected name:
                         //LIST_family_selected
 
                         allID.add(user_id_db);//add user id
