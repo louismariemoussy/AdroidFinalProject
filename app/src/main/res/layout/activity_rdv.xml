@@ -42,7 +42,7 @@
         android:layout_marginLeft="15dp"
         android:textColorHint="@color/Deep_Champagne"
         android:textColor="@color/Deep_Champagne"
-        android:background="@null"
+
         >
 
     </EditText>
