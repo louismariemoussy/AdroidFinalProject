@@ -321,6 +321,46 @@ class myDbAdapter {
         return listOfLists;
     }
 
+    public List<ArrayList<String>> getRDVwithUserIdAndDate(int user_id,String date)
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        String query = "SELECT "+ myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.TITLE +", "+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.START_DATE +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.END_DATE +", " + myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.OBJECT +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.DESCR +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.PEOPLE +" FROM "+ myDbHelper.TABLE_NAME_RDV+" INNER JOIN "+myDbHelper.TABLE_NAME_LINK+" ON "+myDbHelper.TABLE_NAME_LINK+"."+myDbHelper.RDV_ID+"="+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.RID+" WHERE "+myDbHelper.TABLE_NAME_LINK+"."+myDbHelper.USER_ID+"="+user_id+" AND "+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.START_DATE+" LIKE \'"+date+"%\'";
+        Cursor cursor = db.rawQuery( query,null);
+        StringBuffer buffer= new StringBuffer();
+        List<ArrayList<String>> listOfLists = new ArrayList<ArrayList<String>>();
+        ArrayList<String> TitleList = new ArrayList<String>();
+        ArrayList<String> sDateList = new ArrayList<String>();
+        ArrayList<String> eDateList = new ArrayList<String>();
+        ArrayList<String> ObjList = new ArrayList<String>();
+        ArrayList<String> DesList = new ArrayList<String>();
+        ArrayList<String> PeopleList = new ArrayList<String>();
+        while (cursor.moveToNext())
+        {
+
+            String title =cursor.getString(cursor.getColumnIndex(myDbHelper.TITLE));
+            String sDate =cursor.getString(cursor.getColumnIndex(myDbHelper.START_DATE));
+            String eDate =cursor.getString(cursor.getColumnIndex(myDbHelper.END_DATE));
+            String Obj =cursor.getString(cursor.getColumnIndex(myDbHelper.OBJECT));
+            String Des =cursor.getString(cursor.getColumnIndex(myDbHelper.DESCR));
+            String People =cursor.getString(cursor.getColumnIndex(myDbHelper.PEOPLE));
+
+            TitleList.add(title);
+            sDateList.add(sDate);
+            eDateList.add(eDate);
+            ObjList.add(Obj);
+            DesList.add(Des);
+            PeopleList.add(People);
+        }
+        listOfLists.add(TitleList);
+        listOfLists.add(sDateList);
+        listOfLists.add(eDateList);
+        listOfLists.add(ObjList);
+        listOfLists.add(DesList);
+        listOfLists.add(PeopleList);
+
+        return listOfLists;
+    }
 
     static class myDbHelper extends SQLiteOpenHelper
     {

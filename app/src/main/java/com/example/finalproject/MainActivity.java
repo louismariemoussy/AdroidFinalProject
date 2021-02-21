@@ -23,8 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<String> PeopleList = new ArrayList<String>();
     int user_id_db;
     int user_id_list;
+    String clicked_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Message.message(getApplicationContext(),listeDeroulante.getItemAtPosition(user_id_list).toString().trim());
          user_id_db = Integer.parseInt(helper.getIdByName(listeDeroulante.getItemAtPosition(user_id_list).toString().trim()));
         //Message.message(getApplicationContext(), "user id db" + helper.getIdByName(listeDeroulante.getItemAtPosition(user_id_list).toString().trim()));
+
+        java.util.Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        clicked_date = df.format(c);
+
+
 
 
         //btn +
@@ -144,8 +154,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onSelectedDayChange(CalendarView arg0, int year, int month,
                                             int date) {
+                month = month +1;//I dunnon why but months start at 0
                 Toast.makeText(getApplicationContext(), date + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
+                String StringDay = Integer.toString(date);
+                String StringMonth = Integer.toString(month);
+
+                if( StringDay.length() == 1){//if lenght = 1  then add 0 to have 01
+                    StringDay = "0"+StringDay;
+                }
+                if(StringMonth.length() == 1){//if min = 1 then add 0 to have 01
+                    StringMonth = "0"+StringMonth; }
+
+                clicked_date = Integer.toString(year) + "-"+StringMonth+"-"+StringDay;
+                deployRecyclerView( user_id_db, TitleList, sDateList,  eDateList,  ObjList,  DesList, PeopleList);
             }
+
+
         });
 
 
@@ -192,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //get all rdv of the user
         List<ArrayList<String>> listOfLists = new ArrayList<ArrayList<String>>();
-        listOfLists = helper.getRDVwithUserID(user_id_db);
+        listOfLists = helper.getRDVwithUserIdAndDate(user_id_db,clicked_date);
 
         TitleList = listOfLists.get(0);
         sDateList = listOfLists.get(1);
@@ -222,6 +246,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //when i'm back the recycler view is updated
         super.onResume();
+        java.util.Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        clicked_date = df.format(c);
         deployRecyclerView(user_id_db, TitleList, sDateList, eDateList, ObjList, DesList,PeopleList);
 
 
