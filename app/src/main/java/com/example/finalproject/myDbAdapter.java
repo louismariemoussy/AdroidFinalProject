@@ -5,9 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.icu.text.CaseMap;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 class myDbAdapter {
@@ -112,6 +114,24 @@ class myDbAdapter {
         return buffer.toString();
     }
 
+    public String getNameById(int id)
+    {
+
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        String[] columns = {myDbHelper.NAME};
+        Cursor cursor =db.query(myDbHelper.TABLE_NAME_USER,columns, myDbHelper.UID+" = '"+id+"';", null,null,null,null);
+        StringBuffer buffer= new StringBuffer();
+        while (cursor.moveToNext())
+        {
+            //int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));
+            String name =cursor.getString(cursor.getColumnIndex(myDbHelper.NAME));//https://stackoverflow.com/questions/16832401/sqlite-auto-increment-not-working
+
+            //String  password =cursor.getString(cursor.getColumnIndex(myDbHelper.PHONE));
+            buffer.append(name);
+        }
+        return buffer.toString();
+    }
+
     public  int delete(int id)
     {
         SQLiteDatabase db = myhelper.getWritableDatabase();
@@ -170,7 +190,7 @@ class myDbAdapter {
     }
 
     //---------ADD AN EVENT-------------------------------------------------------------------------
-    public long insertRDV(String title, String start_date, String end_date, boolean family,  int creator, String description)
+    public long insertRDV(String title, String start_date, String end_date, boolean family,  int creator, String description, String people)
     {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValuesRDV = new ContentValues();
@@ -184,6 +204,7 @@ class myDbAdapter {
         contentValuesRDV.put(myDbHelper.OBJECT,family);
         contentValuesRDV.put(myDbHelper.DESCR,description);
         contentValuesRDV.put(myDbHelper.TITLE,title);
+        contentValuesRDV.put(myDbHelper.PEOPLE, people);
         //contentValues.put(myDbHelper., );
 
         long id = dbb.insert(myDbHelper.TABLE_NAME_RDV, null , contentValuesRDV);
@@ -219,7 +240,7 @@ class myDbAdapter {
     public String getAllRDV()
     {
         SQLiteDatabase db = myhelper.getWritableDatabase();
-        String[] columns = {myDbHelper.TITLE, myDbHelper.START_DATE, myDbHelper.RID, myDbHelper.CREATOR_ID, myDbHelper.END_DATE, myDbHelper.OBJECT, myDbHelper.DESCR};
+        String[] columns = {myDbHelper.TITLE, myDbHelper.START_DATE, myDbHelper.RID, myDbHelper.CREATOR_ID, myDbHelper.END_DATE, myDbHelper.OBJECT, myDbHelper.DESCR, myDbHelper.PEOPLE};
         Cursor cursor =db.query(myDbHelper.TABLE_NAME_RDV,columns,null,null,null,null,null);
         StringBuffer buffer= new StringBuffer();
         //buffer.append(cursor.getColumnCount());
@@ -233,9 +254,10 @@ class myDbAdapter {
             String edate =cursor.getString(cursor.getColumnIndex(myDbHelper.END_DATE));
             String obj =cursor.getString(cursor.getColumnIndex(myDbHelper.OBJECT));
             String des =cursor.getString(cursor.getColumnIndex(myDbHelper.DESCR));
+            String people =cursor.getString(cursor.getColumnIndex(myDbHelper.PEOPLE));
 
 
-            buffer.append( "Title: " + title +  "  RDV id: " + rid + "  Creator: " + cid  +" \n" + "  Start: " + sdate + "  End: " + edate +" \n" + "  Object: " + obj + "  Description: " + des  +" \n");
+            buffer.append( "Title: " + title +  "  RDV id: " + rid + "  Creator: " + cid  +" \n" + "  Start: " + sdate + "  End: " + edate +" \n" + "  Object: " + obj + "  Description: " + des  +" \n"+ "  People: " + people  +" \n");
         }
         return buffer.toString();
     }
@@ -256,6 +278,47 @@ class myDbAdapter {
             buffer.append( "RDV id: " + rid + "  User id: " + uid +" \n");
         }
         return buffer.toString();
+    }
+
+    public List<ArrayList<String>> getRDVwithUserID(int user_id)
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+        String query = "SELECT "+ myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.TITLE +", "+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.START_DATE +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.END_DATE +", " + myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.OBJECT +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.DESCR +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.PEOPLE +" FROM "+ myDbHelper.TABLE_NAME_RDV+" INNER JOIN "+myDbHelper.TABLE_NAME_LINK+" ON "+myDbHelper.TABLE_NAME_LINK+"."+myDbHelper.RDV_ID+"="+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.RID+" WHERE "+myDbHelper.TABLE_NAME_LINK+"."+myDbHelper.USER_ID+"="+user_id;
+        Cursor cursor = db.rawQuery( query,null);
+        StringBuffer buffer= new StringBuffer();
+        List<ArrayList<String>> listOfLists = new ArrayList<ArrayList<String>>();
+        ArrayList<String> TitleList = new ArrayList<String>();
+        ArrayList<String> sDateList = new ArrayList<String>();
+        ArrayList<String> eDateList = new ArrayList<String>();
+        ArrayList<String> ObjList = new ArrayList<String>();
+        ArrayList<String> DesList = new ArrayList<String>();
+        ArrayList<String> PeopleList = new ArrayList<String>();
+        while (cursor.moveToNext())
+        {
+
+            String title =cursor.getString(cursor.getColumnIndex(myDbHelper.TITLE));
+            String sDate =cursor.getString(cursor.getColumnIndex(myDbHelper.START_DATE));
+            String eDate =cursor.getString(cursor.getColumnIndex(myDbHelper.END_DATE));
+            String Obj =cursor.getString(cursor.getColumnIndex(myDbHelper.OBJECT));
+            String Des =cursor.getString(cursor.getColumnIndex(myDbHelper.DESCR));
+            String People =cursor.getString(cursor.getColumnIndex(myDbHelper.PEOPLE));
+
+            TitleList.add(title);
+            sDateList.add(sDate);
+            eDateList.add(eDate);
+            ObjList.add(Obj);
+            DesList.add(Des);
+            PeopleList.add(People);
+        }
+        listOfLists.add(TitleList);
+        listOfLists.add(sDateList);
+        listOfLists.add(eDateList);
+        listOfLists.add(ObjList);
+        listOfLists.add(DesList);
+        listOfLists.add(PeopleList);
+
+        return listOfLists;
     }
 
 
@@ -282,8 +345,10 @@ class myDbAdapter {
         private static final String END_DATE= "enddate";    // Column V
         private static final String OBJECT= "object";    // Column VI
         private static final String DESCR= "descr";    // Column VII description
+        private static final String PEOPLE= "people";    // Column VIII
+
         private static final String CREATE_TABLE2 = "CREATE TABLE "+TABLE_NAME_RDV+
-                " ("+RID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+CREATOR_ID+" NUMBER ,"+ TITLE+" VARCHAR(225),"+ START_DATE+" DATETIME,"+ END_DATE+" DATETIME,"+OBJECT+" BOOLEAN,"+DESCR+" VARCHAR(225));";
+                " ("+RID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+CREATOR_ID+" NUMBER ,"+ TITLE+" VARCHAR(225),"+ START_DATE+" DATETIME,"+ END_DATE+" DATETIME,"+OBJECT+" BOOLEAN,"+DESCR+" VARCHAR(225),"+PEOPLE+" VARCHAR(225));";
         private static final String DROP_TABLE_RDV ="DROP TABLE IF EXISTS "+TABLE_NAME_RDV;
 
         //LINK TABLE
