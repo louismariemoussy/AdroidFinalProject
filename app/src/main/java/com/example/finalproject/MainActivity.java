@@ -239,8 +239,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         for (int i = 0; i < TitleList.size(); i++) {
             sDate = sDateList.get(i).split(" ");
             eDate = eDateList.get(i).split( " ");
-            //Log.d("yo", "ppclc: " +PeopleList.get(i));
-            itemList.add(new rdvData(TitleList.get(i), PeopleList.get(i), sDate[0], sDate[1], eDate[0], eDate[1],ObjList.get(i),DesList.get(i)));
+            //Log.d("yo", "ppclc: " +PeopleList.get(i));                                // remove the last 3 character of the string here :00
+            itemList.add(new rdvData(TitleList.get(i), PeopleList.get(i), sDate[0], sDate[1].replaceAll("...$",""), eDate[0], eDate[1].replaceAll("...$",""),ObjList.get(i),DesList.get(i)));
         }
 
     }
