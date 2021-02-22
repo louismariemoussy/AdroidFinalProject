@@ -44,11 +44,18 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
 
 
         holder.item.setText(itemList.get(listPosition).getTitle());
-        holder.rdv_people.setText(itemList.get(listPosition).getRdv_people());
+        Log.d("OBJ" , "onBindViewHolder: "+itemList.get(listPosition).getRdv_onj());
+        if(Integer.parseInt(itemList.get(listPosition).getRdv_onj().trim()) == 1){
+            holder.rdv_people.setText("Family");
+        }else{
+            holder.rdv_people.setText(itemList.get(listPosition).getRdv_people());
+        }
+
         holder.rdv_start_date.setText(itemList.get(listPosition).getRdv_start_date());
         holder.rdv_start_time.setText(itemList.get(listPosition).getRdv_start_time());
         holder.rdv_end_date.setText(itemList.get(listPosition).getRdv_end_date());
         holder.rdv_end_time.setText(itemList.get(listPosition).getRdv_end_time());
+
 
 
 
@@ -62,6 +69,7 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
         TextView rdv_start_time;
         TextView rdv_end_date;
         TextView rdv_end_time;
+        String rdv_obj;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -82,6 +90,7 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
             rdv_end_time
                     = (TextView)itemView
                     .findViewById(R.id.rdv_end_time);
+
 
         }
         @Override

@@ -147,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         CalendarView mCalendarView = findViewById(R.id.calendarView);
 
+
+
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
 
@@ -167,7 +169,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 clicked_date = Integer.toString(year) + "-"+StringMonth+"-"+StringDay;
                 deployRecyclerView( user_id_db, TitleList, sDateList,  eDateList,  ObjList,  DesList, PeopleList);
+
             }
+
+
 
 
         });
@@ -246,9 +251,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //when i'm back the recycler view is updated
         super.onResume();
-        java.util.Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        clicked_date = df.format(c);
+        //java.util.Date c = Calendar.getInstance().getTime();
+        //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        //clicked_date = df.format(c);
         deployRecyclerView(user_id_db, TitleList, sDateList, eDateList, ObjList, DesList,PeopleList);
 
 
