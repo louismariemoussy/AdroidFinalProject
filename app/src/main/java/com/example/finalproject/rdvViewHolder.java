@@ -19,6 +19,7 @@ class rdvViewHolder extends RecyclerView.ViewHolder {
     TextView rdv_start_time;
     TextView rdv_end_date;
     TextView rdv_end_time;
+    TextView rdv_note;
 
     View view;
 
@@ -43,6 +44,9 @@ class rdvViewHolder extends RecyclerView.ViewHolder {
         rdv_end_time
                 = (TextView)itemView
                 .findViewById(R.id.rdv_end_time);
+        rdv_note
+                = (TextView)itemView
+                .findViewById(R.id.rdv_note);
         view  = itemView;
     }
 

@@ -1,10 +1,13 @@
 package com.example.finalproject;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +47,7 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
 
 
         holder.item.setText(itemList.get(listPosition).getTitle());
-        Log.d("OBJ" , "onBindViewHolder: "+itemList.get(listPosition).getRdv_onj());
+        //Log.d("OBJ" , "onBindViewHolder: "+itemList.get(listPosition).getRdv_onj());
         if(Integer.parseInt(itemList.get(listPosition).getRdv_onj().trim()) == 1){
             holder.rdv_people.setText("Family");
         }else{
@@ -55,6 +58,7 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
         holder.rdv_start_time.setText(itemList.get(listPosition).getRdv_start_time());
         holder.rdv_end_date.setText(itemList.get(listPosition).getRdv_end_date());
         holder.rdv_end_time.setText(itemList.get(listPosition).getRdv_end_time());
+        holder.rdv_note.setText(itemList.get(listPosition).getRdv_note());
 
 
 
@@ -70,6 +74,7 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
         TextView rdv_end_date;
         TextView rdv_end_time;
         String rdv_obj;
+        TextView rdv_note;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -90,12 +95,29 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
             rdv_end_time
                     = (TextView)itemView
                     .findViewById(R.id.rdv_end_time);
+            rdv_note
+                    = (TextView)itemView
+                    .findViewById(R.id.rdv_note);
 
 
         }
         @Override
         public void onClick(View view) {
+
             Log.d("onclick", "onClick " + getLayoutPosition() + " " + item.getText());
+            Log.d("onclick", "onClick visibility: "+rdv_note.getVisibility());
+            if(rdv_note.getText().length() != 0){
+                if(rdv_note.getVisibility() == View.VISIBLE ){
+                    rdv_note.setVisibility(View.GONE);
+                }else{
+                    //rdv_note.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);//add line under text
+                    rdv_note.setVisibility(View.VISIBLE);
+
+                }
+            }
+
+
+
         }
     }
 }

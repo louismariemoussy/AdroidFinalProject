@@ -11,7 +11,7 @@ class rdvData {
     String rdv_end_date;
     String rdv_end_time;
     String rdv_onj;
-    String rdv_des;
+    String rdv_note;
 
     public rdvData(String title,
             String rdv_people,
@@ -20,7 +20,7 @@ class rdvData {
             String rdv_end_date,
             String rdv_end_time,
             String rdv_onj,
-            String rdv_des)
+            String rdv_note)
     {
         this.title=title;
         this.rdv_people=rdv_people;
@@ -29,7 +29,7 @@ class rdvData {
         this.rdv_end_date=rdv_end_date;
         this.rdv_end_time=rdv_end_time;
         this.rdv_onj=rdv_onj;
-        this.rdv_des=rdv_des;
+        this.rdv_note=rdv_note;
     }
 
     public String getTitle() {
@@ -88,11 +88,11 @@ class rdvData {
         this.rdv_onj = rdv_onj;
     }
 
-    public String getRdv_des() {
-        return rdv_des;
+    public String getRdv_note() {
+        return rdv_note;
     }
 
-    public void setRdv_des(String rdv_des) {
-        this.rdv_des = rdv_des;
+    public void setRdv_note(String rdv_note) {
+        this.rdv_note = rdv_note;
     }
 }

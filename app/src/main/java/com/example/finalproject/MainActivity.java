@@ -148,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         CalendarView mCalendarView = findViewById(R.id.calendarView);
 
 
-
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
 
