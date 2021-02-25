@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.icu.text.CaseMap;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -232,6 +233,34 @@ class myDbAdapter {
 
 
         return ids;
+    }
+
+    public int IsThisNameAlreadyTaken(String name)
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        int available = 0;
+
+
+
+        String[] columns = {myDbHelper.NAME};
+        Cursor cursor =db.query(myDbHelper.TABLE_NAME_USER,columns, myDbHelper.NAME+" = '"+name+"';", null,null,null,null);
+
+
+        Log.d("test add user adapter", "IsThisNameAlreadyTaken: "+ cursor.getCount());
+
+                if (cursor.getCount() == 0){
+                        available=1;
+                }
+
+
+
+            return available;//0= not available and 1 is available, should I use boolean ?
+
+
+        //Log.i("Available ?",count);//ds la console
+
+
     }
 
 

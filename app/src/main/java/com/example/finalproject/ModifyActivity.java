@@ -81,11 +81,29 @@ public class ModifyActivity extends AppCompatActivity implements AdapterView.OnI
                  newName = mModifyName.getText().toString();
                  newPhone = mModifyPhone.getText().toString();
 
+
+
+
                  //helper.updateName("LM",newName);
                  if (newName.length() !=0 || newPhone.length() !=0 ){
-                     helper.updateUser(id_selected, newName, newPhone);
-                     Toast.makeText(ModifyActivity.this, "ID: " + id_selected, Toast.LENGTH_SHORT).show();
-                     startActivity(new Intent(ModifyActivity.this, login.class));
+
+                     int available = 1;
+                     if (newName.length() !=0){
+                         available = helper.IsThisNameAlreadyTaken(newName);
+                         //Log.d("Add user test", "onClick: "+available);
+                         if(available == 1){
+
+                         }else{
+                             Toast.makeText(ModifyActivity.this, "This name is already taken", Toast.LENGTH_SHORT).show();
+                         }
+                     }
+
+                     if(available == 1){
+                         helper.updateUser(id_selected, newName, newPhone);
+                         Toast.makeText(ModifyActivity.this, "ID: " + id_selected, Toast.LENGTH_SHORT).show();
+                         startActivity(new Intent(ModifyActivity.this, login.class));
+                     }
+
                  }
 
             }
