@@ -105,9 +105,11 @@ public class ModifyActivity extends AppCompatActivity implements AdapterView.OnI
         TextView mPhoneView = findViewById(R.id.phoneView);
 
         //Toast.makeText(ModifyActivity.this, "You Clicked " + parent.getItemAtPosition(pos) + pos, Toast.LENGTH_SHORT).show();
-         id = pos+1;
-        id_selected = (int)id;
+        //id = pos+1;
+        helper = new myDbAdapter(this);
+
         String name = parent.getItemAtPosition(pos).toString().trim().replace("\n", "").replace("\r", "");
+        id_selected = Integer.parseInt(helper.getIdByName(name));
         //Toast.makeText(ModifyActivity.this, name, Toast.LENGTH_SHORT).show();
         String phone = helper.getPhoneByName(name);
         //Toast.makeText(ModifyActivity.this, phone, Toast.LENGTH_SHORT).show();
@@ -116,8 +118,9 @@ public class ModifyActivity extends AppCompatActivity implements AdapterView.OnI
     }
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
-        id_selected=1;
-
+        int initPos=1;
+        String name = parent.getItemAtPosition(initPos).toString().trim().replace("\n", "").replace("\r", "");
+        id_selected = Integer.parseInt(helper.getIdByName(name));
     }
 
 
