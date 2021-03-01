@@ -1,23 +1,38 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MonPremierProjet" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.MonPremierProjet" parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/offwhite</item>
-        <item name="colorPrimaryVariant">@color/black</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/Deep_Champagne</item>
+        <item name="colorPrimaryVariant">@color/Raisin_black</item>
+        <item name="colorOnPrimary">@color/Raisin_black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/black</item>
-        <item name="colorSecondaryVariant">@color/black</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/Floral_White</item>
+        <item name="colorSecondaryVariant">@color/Floral_White</item>
+        <item name="colorOnSecondary">@color/Floral_White</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorAccent">@color/offwhite</item>
-        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/Floral_White</item>
+        <item name="colorPrimaryDark">@color/Floral_White</item>
     </style>
-
     <style name="Theme.MonPremierProjet.Popme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
+
+    <!-- Calendar View -->
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/Deep_Champagne</item>
+        <item name="colorPrimary">@color/Floral_White</item>
+    </style>
+
+    <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/Floral_White</item>
+        <item name="android:weekNumberColor">@color/Deep_Champagne</item>
+    </style>
+    <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/Deep_Champagne</item>
+    </style>
+
+
 </resources>

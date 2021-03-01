@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,10 +9,20 @@
     android:fitsSystemWindows="true"
     android:background="@color/Raisin_black"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/textView"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="clip_horizontal">
+
     <Spinner android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/liste_deroulante"
-        android:textColor="@color/Floral_White"/>
+        android:textColor="@color/Floral_White"
+        android:gravity="top"/>
 
     <TextView
         android:id="@+id/textView"
@@ -22,79 +32,68 @@
         android:textSize="20pt"
         android:text="@string/Calendar"
         android:textColor="@color/Deep_Champagne"
-        android:layout_below="@id/liste_deroulante"/>
+        android:layout_below="@id/liste_deroulante"
+        android:layout_marginBottom="5dp"/>
+    </LinearLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:layout_weight="1"
         android:layout_below="@id/textView">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:fitsSystemWindows="true"
-        >
-
-
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dateTextAppearance="@style/CalenderViewDateCustomText"
-            android:showWeekNumber="false"
-            android:theme="@style/CalenderViewCustom"
-            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
-
-
-            />
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            >
+
+            <CalendarView
+                android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:dateTextAppearance="@style/CalenderViewDateCustomText"
+                android:showWeekNumber="false"
+                android:theme="@style/CalenderViewCustom"
+                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
+                android:layout_weight="1"
+                />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:nestedScrollingEnabled="true"
-                    android:id="@+id/RDVrecyclerView"
-                    android:layout_width="match_parent"
-                    android:overScrollMode="never"
-                    android:layout_height="60mm"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RDVrecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="true"
+                android:overScrollMode="never"
+                android:layout_weight="1"
+                />
 
-
-
-
-
-
-
-
-
-
+        </LinearLayout>
 
 
-            </LinearLayout>
 
-    </LinearLayout>
 
-    </ScrollView>
+
+</LinearLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
+        android:gravity="bottom|right"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
         >
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnplus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="center_horizontal"
             android:background="@color/Deep_Champagne"
             android:backgroundTint="@color/Space_Cadet"
             android:src="@drawable/ic_add"
@@ -109,5 +108,5 @@
 
 
 
-</RelativeLayout>
+</LinearLayout>
 

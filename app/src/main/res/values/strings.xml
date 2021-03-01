@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FinalProject</string>
+    <string name="app_name">Family calendar</string>
     <string name="Calendar">Calendar</string>
     <string name="Plus">➕</string>
     <string name="rdv">RDV</string>
@@ -9,6 +9,6 @@
     <string name="adduser">Add</string>
     <string name="modify">Modify profil</string>
     <string name="family_event">Family event</string>
-    <string name="family_check">People</string>
+    <string name="family_check">Select people</string>
     <string name="description">Note</string>
 </resources>

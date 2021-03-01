@@ -5,7 +5,12 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#000000</color>
+    <color name="black">#FFCF99</color>
     <color name="white">#FFFFFFFF</color>
     <color name="offwhite">#f8f8ff</color>
+    <color name="Raisin_black">#1E1E24</color>
+    <color name="Dark_Red">#92140C</color>
+    <color name="Floral_White">#FFF8F0</color>
+    <color name="Deep_Champagne">#FFCF99</color>
+    <color name="Space_Cadet">#111D4A</color>
 </resources>

@@ -64,7 +64,7 @@ public class ModifyActivity extends AppCompatActivity implements AdapterView.OnI
         Spinner choose_user = (Spinner)findViewById(R.id.choose_user);
         choose_user.setOnItemSelectedListener(this);
         ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1,
+                R.layout.simple_list_item_1_custom,
                 (name.replaceAll("\\s+$", "")).split(" "));
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,11 +81,29 @@ public class ModifyActivity extends AppCompatActivity implements AdapterView.OnI
                  newName = mModifyName.getText().toString();
                  newPhone = mModifyPhone.getText().toString();
 
+
+
+
                  //helper.updateName("LM",newName);
                  if (newName.length() !=0 || newPhone.length() !=0 ){
-                     helper.updateUser(id_selected, newName, newPhone);
-                     Toast.makeText(ModifyActivity.this, "ID: " + id_selected, Toast.LENGTH_SHORT).show();
-                     startActivity(new Intent(ModifyActivity.this, login.class));
+
+                     int available = 1;
+                     if (newName.length() !=0){
+                         available = helper.IsThisNameAlreadyTaken(newName);
+                         //Log.d("Add user test", "onClick: "+available);
+                         if(available == 1){
+
+                         }else{
+                             Toast.makeText(ModifyActivity.this, "This name is already taken", Toast.LENGTH_SHORT).show();
+                         }
+                     }
+
+                     if(available == 1){
+                         helper.updateUser(id_selected, newName, newPhone);
+                         Toast.makeText(ModifyActivity.this, "ID: " + id_selected, Toast.LENGTH_SHORT).show();
+                         startActivity(new Intent(ModifyActivity.this, login.class));
+                     }
+
                  }
 
             }
@@ -105,9 +123,11 @@ public class ModifyActivity extends AppCompatActivity implements AdapterView.OnI
         TextView mPhoneView = findViewById(R.id.phoneView);
 
         //Toast.makeText(ModifyActivity.this, "You Clicked " + parent.getItemAtPosition(pos) + pos, Toast.LENGTH_SHORT).show();
-         id = pos+1;
-        id_selected = (int)id;
+        //id = pos+1;
+        helper = new myDbAdapter(this);
+
         String name = parent.getItemAtPosition(pos).toString().trim().replace("\n", "").replace("\r", "");
+        id_selected = Integer.parseInt(helper.getIdByName(name));
         //Toast.makeText(ModifyActivity.this, name, Toast.LENGTH_SHORT).show();
         String phone = helper.getPhoneByName(name);
         //Toast.makeText(ModifyActivity.this, phone, Toast.LENGTH_SHORT).show();
@@ -116,8 +136,9 @@ public class ModifyActivity extends AppCompatActivity implements AdapterView.OnI
     }
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
-        id_selected=1;
-
+        int initPos=1;
+        String name = parent.getItemAtPosition(initPos).toString().trim().replace("\n", "").replace("\r", "");
+        id_selected = Integer.parseInt(helper.getIdByName(name));
     }
 
 

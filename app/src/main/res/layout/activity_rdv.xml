@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/roundedbutton"
+    android:background="@drawable/roundedwindow"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:gravity="center_horizontal"
@@ -40,8 +40,9 @@
         android:padding="20dp"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
-        android:textColorHint="@color/cardview_shadow_start_color"
-        android:textColor="@color/black"
+        android:textColorHint="@color/Deep_Champagne"
+        android:textColor="@color/Deep_Champagne"
+
         >
 
     </EditText>
@@ -82,7 +83,7 @@
     android:gravity="left"
     android:textSize="10dp"
         android:layout_weight="1"
-        android:textColor="@color/black"/>
+        android:textColor="@color/Floral_White"/>
 
         <TextView
             android:id="@+id/txtStartTime"
@@ -93,7 +94,7 @@
             android:paddingRight="25pt"
             android:layout_weight="1"
             android:text=""
-            android:textColor="@color/black"
+            android:textColor="@color/Floral_White"
             ></TextView>
 
     </LinearLayout>
@@ -120,7 +121,7 @@
             android:gravity="left"
             android:textSize="10dp"
             android:layout_weight="1"
-            android:textColor="@color/black"/>
+            android:textColor="@color/Floral_White"/>
 
         <TextView
             android:id="@+id/txtEndTime"
@@ -131,7 +132,7 @@
             android:paddingRight="25pt"
             android:layout_weight="1"
             android:text=""
-            android:textColor="@color/black"></TextView>
+            android:textColor="@color/Floral_White"></TextView>
 
     </LinearLayout>
 
@@ -152,7 +153,7 @@
         android:text="@string/family_event"
         android:checked="false"
         android:layout_weight="1"
-        android:textColor="@color/black"/>
+        android:textColor="@color/Floral_White"/>
 
     </LinearLayout>
 
@@ -174,7 +175,7 @@
        android:id="@+id/FamilyCheck"
         android:text="@string/family_check"
         android:textSize="20dp"
-        android:textColor="@color/black"
+        android:textColor="@color/Deep_Champagne"
         ></TextView>
 
     </LinearLayout>
@@ -187,7 +188,7 @@
         android:id="@+id/FamilySelected"
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
-        android:textColor="@color/black"
+        android:textColor="@color/Floral_White"
         ></TextView>
 
 
@@ -198,7 +199,7 @@
         android:layout_gravity="left"
         android:paddingTop="30dp"
         android:paddingLeft="20dp"
-        android:paddingRight="10dp"
+        android:paddingRight="20dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -206,7 +207,7 @@
             android:id="@+id/note"
             android:text="@string/description"
             android:textSize="20dp"
-            android:textColor="@color/black"
+            android:textColor="@color/Deep_Champagne"
 
             ></TextView>
 
@@ -220,11 +221,13 @@
         android:textSize="10dp"
         android:id="@+id/description"
         android:maxLength="200"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:maxLines="5"
-        android:textColor="@color/black"
-        android:textColorHint="@color/material_on_primary_emphasis_high_type"
+        android:textColor="@color/Floral_White"
+        android:textColorHint="@color/Floral_White"
+        android:background="@null"
+        android:hint="Your note here"
         ></EditText>
 
 
@@ -253,7 +256,7 @@
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:textColor="@color/black"
+        android:textColor="@color/Floral_White"
         ></android.widget.Button>
 
 

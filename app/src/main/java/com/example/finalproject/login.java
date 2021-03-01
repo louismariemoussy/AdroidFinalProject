@@ -91,7 +91,7 @@ public class login extends ListActivity {
             UserList.add(AllName[i]);
 
         this.myAdaptater = new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1, UserList);
+                this, R.layout.simple_list_item_1_custom, UserList);
         super.setListAdapter(this.myAdaptater);
 
 

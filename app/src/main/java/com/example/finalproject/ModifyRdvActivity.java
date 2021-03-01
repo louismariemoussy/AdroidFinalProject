@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -29,7 +28,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-public class RdvActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     Button start_date;
     TextView start_date_view;
@@ -109,6 +108,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         EditText title = findViewById(R.id.title_rdv);
         Button add_btn = findViewById(R.id.addBtn);
         EditText descr = findViewById(R.id.description);
+
+        add_btn.setText("Modify");
 
         //to get name in the db
         helper = new myDbAdapter(this);
@@ -197,7 +198,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
             public void onClick(View v) {
                //Si pas de titre -> toast
                 if(title.getText().length() == 0 ){
-                    Toast.makeText(RdvActivity.this, "Require a title", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModifyRdvActivity.this, "Require a title", Toast.LENGTH_SHORT).show();
                 }else {
                     //Add to the database
 
@@ -262,7 +263,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         helper.createLINK((int)rdvID,allID);
                         //Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
 
-                        Toast.makeText(RdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ModifyRdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
                         finish();
 
 
@@ -295,7 +296,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
                         helper.createLINK((int)rdvID,allID);
                         //Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
-                        Toast.makeText(RdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ModifyRdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
 
                         finish();
 
@@ -354,7 +355,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                 int hour = cldr.get(Calendar.HOUR_OF_DAY);
                 int minutes = cldr.get(Calendar.MINUTE);
                 // time picker dialog
-                picker = new TimePickerDialog(RdvActivity.this,
+                picker = new TimePickerDialog(ModifyRdvActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
@@ -393,7 +394,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                 int hour = cldr.get(Calendar.HOUR_OF_DAY);
                 int minutes = cldr.get(Calendar.MINUTE);
                 // time picker dialog
-                picker = new TimePickerDialog(RdvActivity.this,
+                picker = new TimePickerDialog(ModifyRdvActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
@@ -449,7 +450,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         family_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(RdvActivity.this, R.style.alertdialog);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(ModifyRdvActivity.this, R.style.alertdialog);
                 mBuilder.setTitle("Family member");
 
                 String name2 = name.replace(user_name,"").replaceAll("(?m)^[ \t]*\r?\n", "");
