@@ -291,6 +291,34 @@ class myDbAdapter {
         return buffer.toString();
     }
 
+
+    public ArrayList<Integer> conflit(int user_id, String start_date_wanted, String end_date_wanted)
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+
+
+        String query = "SELECT "+ myDbHelper.RID  +" FROM "+ myDbHelper.TABLE_NAME_RDV+" WHERE ("+myDbHelper.START_DATE+"<= \""+start_date_wanted+"\" AND "+myDbHelper.END_DATE+">= \""+start_date_wanted+"\" ) OR ("+myDbHelper.START_DATE+"<= \""+end_date_wanted+"\" AND "+myDbHelper.END_DATE+">= \""+end_date_wanted+"\")";
+        Cursor cursor = db.rawQuery( query,null);
+        StringBuffer buffer= new StringBuffer();
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+
+        while (cursor.moveToNext())
+        {
+
+            Integer id =cursor.getInt(cursor.getColumnIndex(myDbHelper.RID));
+
+
+            list.add(id);
+
+        }
+
+
+
+
+        return list;
+    }
+
     //-----------------------------------LINK-------------------------------------------------------
 
     public String getAllLink()

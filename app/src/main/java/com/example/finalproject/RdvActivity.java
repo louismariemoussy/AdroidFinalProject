@@ -86,8 +86,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         if(date_sql[0].length() == 1){//if day = 1 then add 0 to have 01
             date_sql[0] = "0"+date_sql[0];
         }
-        sql_end_date = date_sql[2]+"-"+date_sql[0]+"-"+date_sql[1];//yyyy-MM-DD
-        sql_start_date = date_sql[2]+"-"+date_sql[0]+"-"+date_sql[1];//yyyy-MM-DD
+        sql_end_date = date_sql[2]+"-"+date_sql[1]+"-"+date_sql[0];//yyyy-MM-DD
+        sql_start_date = date_sql[2]+"-"+date_sql[1]+"-"+date_sql[0];//yyyy-MM-DD
 
 
 
@@ -270,6 +270,9 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
                         allID.removeAll(Arrays.asList(null,""));//remove blank
 
+
+                        Log.d("TEST", "Test conflit: " + helper.conflit(user_id_db,start,end) );
+
                         //insert into RDV TABLE
                         long rdvID = helper.insertRDV(Title,start,end,fam,creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
@@ -304,15 +307,28 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         allID.removeAll(Arrays.asList(null,""));//remove blank
 
 
-                        //insert into RDV TABLE
-                        long rdvID = helper.insertRDV(Title,start,end,fam,creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
+                        Log.d("TEST", "Test conflit: " + helper.conflit(user_id_db,start,end) );
+
+                        ArrayList conflit = helper.conflit(user_id_db,start,end);
+                        if(conflit==null || conflit.size()==0) {//no other event at the same stime
+                            //insert into RDV TABLE
+                            long rdvID = helper.insertRDV(Title,start,end,fam,creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
 
-                        helper.createLINK((int)rdvID,allID);
-                        //Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
-                        Toast.makeText(RdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
+                            helper.createLINK((int)rdvID,allID);
+                            //Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
 
-                        finish();
+                            finish();
+
+                        } else {
+
+                            Toast.makeText(RdvActivity.this, "You already have an event at this time", Toast.LENGTH_SHORT).show();
+
+
+                        }
+
+
 
 
 
@@ -577,7 +593,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
             startDate.setDay(Integer.parseInt(date[1]));
             startDate.setMonth(Integer.parseInt(date[0]));
 
-            sql_start_date = date[2]+"-"+date[0]+"-"+date[1];;//yyyy-MM-DD
+            sql_start_date = date[2]+"-"+date[1]+"-"+date[0];;//yyyy-MM-DD
             Log.d("Selected start date", sql_start_date);
 
             if(dateConflict(endDate,startDate)){
@@ -606,7 +622,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
 
 
-            sql_end_date = date[2]+"-"+date[0]+"-"+date[1];
+            sql_end_date = date[2]+"-"+date[1]+"-"+date[0];
             //Toast.makeText(RdvActivity.this, "SQL end dare "+sql_end_date, Toast.LENGTH_SHORT).show();
             Log.d("Selected end date", sql_end_date);
             if(dateConflict(endDate,startDate)){

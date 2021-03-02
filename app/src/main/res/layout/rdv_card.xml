@@ -11,6 +11,30 @@
     android:layout_marginLeft="20dp"
     android:background="@drawable/roundedwindow">
 
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:orientation="horizontal"
+    android:layout_marginTop="15dp">
+
+    <com.google.android.material.button.MaterialButton
+
+        android:layout_gravity="right"
+        android:background="@drawable/ic_pencil"
+        android:gravity="right"
+        android:layout_marginLeft="10dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:padding="30dp"
+        android:textColor="@color/Floral_White"
+        android:backgroundTint="@color/Floral_White"
+        ></com.google.android.material.button.MaterialButton>
+
+
+</LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -121,6 +145,7 @@
         android:layout_height="20dp"
         android:layout_below="@id/rdv_end_date"
         ></LinearLayout>
+
 
 
 </RelativeLayout>
