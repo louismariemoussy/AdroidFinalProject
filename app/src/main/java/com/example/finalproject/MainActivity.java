@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //String rdv = helper.getAllRDV();
 
-        Toast.makeText(MainActivity.this, "" +rdv, Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.this, "" +rdv, Toast.LENGTH_LONG).show();
 
         String links = helper.getAllLink();
         Log.d("LINK", "onCreate: "+links);

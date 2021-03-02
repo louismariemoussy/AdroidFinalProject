@@ -49,4 +49,19 @@ public class Date {
     public void setMinute(int minute) {
         this.minute = minute;
     }
+
+    public String transformTime(){ //Transform selected time to SQLite DATETIME format HH:mm:ss
+        String StringHour = Integer.toString(this.getHour());
+        String StringMinute = Integer.toString(this.getMinute());
+        if( StringHour.length() == 1){//if hour = 1  then add 0 to have 01
+            StringHour = "0"+StringHour;
+        }
+        if(StringMinute.length() == 1){//if minute = 1 then add 0 to have 01
+            StringMinute = "0"+StringMinute; }
+
+
+
+
+        return StringHour + ":" + StringMinute+":00";
+    }
 }

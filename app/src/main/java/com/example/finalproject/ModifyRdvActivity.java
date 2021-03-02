@@ -611,18 +611,18 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
     }
 
 
-    public Boolean dateConflict(Date startDate, Date endDate){
+    public Boolean dateConflict(Date endDate, Date startDate){
         Log.d("End date ", startDate.getYear() + ", " + startDate.getMonth() + ", " + startDate.getDay());
         Log.d("Start date ", endDate.getYear() + ", " + endDate.getMonth() + ", " + endDate.getDay());
-            if(startDate.getYear()<endDate.getYear()){
+            if(endDate.getYear()<startDate.getYear()){
                 return true;
-            }else if (startDate.getYear()==endDate.getYear()){
-                if (startDate.getMonth()<endDate.getMonth()){
+            }else if (endDate.getYear()==startDate.getYear()){
+                if (endDate.getMonth()<startDate.getMonth()){
                     return true;
-                }else if (startDate.getMonth()==endDate.getMonth()){
-                    if(startDate.getDay()<endDate.getDay()){
+                }else if (endDate.getMonth()==startDate.getMonth()){
+                    if(endDate.getDay()<startDate.getDay()){
                         return true;
-                    }else if(startDate.getDay()==endDate.getDay()){
+                    }else if(endDate.getDay()==startDate.getDay()){
                         sameDay=true;
                         return false;
                     }
@@ -632,10 +632,19 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
             return false;
     }
 
-    private void timeConflict(Date startDate, Date endDate){
-        if(startDate.getYear()<endDate.getYear()){
-
+    private Boolean timeConflict(Date endDate, Date startDate, Boolean sameDay){
+        if(sameDay){
+            if (endDate.getHour()<startDate.getHour()){
+                return true;
+            }else if (endDate.getHour()==startDate.getHour()){
+                if (endDate.getMinute()<startDate.getMinute()){
+                    return true;
+                }else if (endDate.getMinute()==startDate.getMinute()){
+                    return false;
+                }
+            }
         }
+        return false;
     }
 
 }
