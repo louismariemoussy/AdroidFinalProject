@@ -283,8 +283,20 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         allID.removeAll(Arrays.asList(null,""));//remove blank
 
 
-                        Log.d("TEST", "Test conflit: " + helper.conflit(user_id_db,start,end) );
 
+
+                        ArrayList conflit;
+                        int dispo = 1;// var if everyone selected is available = 0 else 1
+                        for (int p =0 ; p<allID.size(); p++){//test if people selected are available
+                            conflit = helper.conflit(Integer.parseInt(allID.get(p).toString()),start,end);
+
+                            if(conflit==null || conflit.size()==0) {}//no other event at the same time
+                            else{
+                                dispo = 0;
+                            }
+                        }
+
+                        if(dispo == 1) {
                         //insert into RDV TABLE
                         long rdvID = helper.insertRDV(Title,start,end,fam,creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
@@ -294,6 +306,12 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
                         Toast.makeText(RdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
                         finish();
+                        } else {
+
+                            Toast.makeText(RdvActivity.this, "All the fam is not available", Toast.LENGTH_SHORT).show();
+
+
+                        }
 
 
 
@@ -319,10 +337,21 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         allID.removeAll(Arrays.asList(null,""));//remove blank
 
 
-                        Log.d("TEST", "Test conflit: " + helper.conflit(user_id_db,start,end) );
 
-                        ArrayList conflit = helper.conflit(creator,start,end);
-                        if(conflit==null || conflit.size()==0) {//no other event at the same stime
+
+                        ArrayList conflit;
+                        int dispo = 1;// var if everyone selected is available = 0 else 1
+                        for (int p =0 ; p<allID.size(); p++){//test if people selected are available
+                            conflit = helper.conflit(Integer.parseInt(allID.get(p).toString()),start,end);
+                            Log.d("TEST", "Test conflit:  "+ conflit);
+
+                            if(conflit==null || conflit.size()==0) {}//no other event at the same time
+                            else{
+                                    dispo = 0;
+                            }
+                        }
+
+                        if(dispo == 1) {
                             //insert into RDV TABLE
                             long rdvID = helper.insertRDV(Title,start,end,fam,creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
@@ -335,7 +364,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
                         } else {
 
-                            Toast.makeText(RdvActivity.this, "You already have an event at this time ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RdvActivity.this, "You or the people selected already have an event at this time ", Toast.LENGTH_SHORT).show();
 
 
                         }
