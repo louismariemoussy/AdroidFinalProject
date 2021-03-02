@@ -309,7 +309,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
                         Log.d("TEST", "Test conflit: " + helper.conflit(user_id_db,start,end) );
 
-                        ArrayList conflit = helper.conflit(user_id_db,start,end);
+                        ArrayList conflit = helper.conflit(creator,start,end);
                         if(conflit==null || conflit.size()==0) {//no other event at the same stime
                             //insert into RDV TABLE
                             long rdvID = helper.insertRDV(Title,start,end,fam,creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
@@ -323,7 +323,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
                         } else {
 
-                            Toast.makeText(RdvActivity.this, "You already have an event at this time", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RdvActivity.this, "You already have an event at this time ", Toast.LENGTH_SHORT).show();
 
 
                         }

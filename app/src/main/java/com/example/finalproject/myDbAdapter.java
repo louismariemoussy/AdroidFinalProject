@@ -297,7 +297,7 @@ class myDbAdapter {
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
 
-        String query = "SELECT "+ myDbHelper.RID  +" FROM "+ myDbHelper.TABLE_NAME_RDV+" WHERE ("+myDbHelper.START_DATE+"<= \""+start_date_wanted+"\" AND "+myDbHelper.END_DATE+">= \""+start_date_wanted+"\" ) OR ("+myDbHelper.START_DATE+"<= \""+end_date_wanted+"\" AND "+myDbHelper.END_DATE+">= \""+end_date_wanted+"\")";
+        String query = "SELECT "+ myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.RID  +" FROM "+ myDbHelper.TABLE_NAME_RDV+" INNER JOIN "+myDbHelper.TABLE_NAME_LINK+" ON "+myDbHelper.TABLE_NAME_LINK+"."+myDbHelper.RDV_ID+"="+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.RID+" WHERE (("+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.START_DATE+"<= \""+start_date_wanted+"\" AND "+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.END_DATE+">= \""+start_date_wanted+"\" ) OR ("+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.START_DATE+"<= \""+end_date_wanted+"\" AND "+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.END_DATE+">= \""+end_date_wanted+"\") )AND "+myDbHelper.TABLE_NAME_LINK+"."+ myDbHelper.USER_ID+" LIKE "+user_id;
         Cursor cursor = db.rawQuery( query,null);
         StringBuffer buffer= new StringBuffer();
 
