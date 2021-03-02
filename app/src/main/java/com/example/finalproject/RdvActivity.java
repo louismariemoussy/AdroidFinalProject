@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -54,6 +55,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
      String sql_start_date2;
 
+    SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+
 
 
     private ArrayList<Integer> AllName;
@@ -64,30 +67,39 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         setContentView(R.layout.activity_rdv);
 
         Calendar calendar = Calendar.getInstance();
-        String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+
+
+
+
+        //String date = DateFormat.getDateInstance().format(calendar.getTime());
         String date_init = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime());
         //String time = DateFormat.getDateInstance().format(calendar.getTime());
-
+        String date = format.format(calendar.getTime());
         //Initialize value of startDate
-        startDate.setYear(Integer.parseInt(date_init.split("/")[2]));
-        startDate.setDay(Integer.parseInt(date_init.split("/")[1]));
-        startDate.setMonth(Integer.parseInt(date_init.split("/")[0]));
+        Log.d("Init start date", date_init + ", " + date);
+        startDate.setYear(date.split("/")[0]);
+        startDate.setDay(date.split("/")[2]);
+        startDate.setMonth(date.split("/")[1]);
 
         //Initialize value of endDate
-        endDate.setYear(Integer.parseInt(date_init.split("/")[2]));
-        endDate.setDay(Integer.parseInt(date_init.split("/")[1]));
-        endDate.setMonth(Integer.parseInt(date_init.split("/")[0]));
+        endDate.setYear(date.split("/")[0]);
+        endDate.setDay(date.split("/")[2]);
+        endDate.setMonth(date.split("/")[1]);
 
         //get the current date to init sql start and end date
-        String date_sql[]= DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()).split("/");//dd/mm/yyyy
+        /*String date_sql[]= DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()).split("/");//dd/mm/yyyy
         if(date_sql[1].length() == 1){//if month = 1 for january then add 0 to have 01
             date_sql[1] = "0"+date_sql[1];
         }
         if(date_sql[0].length() == 1){//if day = 1 then add 0 to have 01
             date_sql[0] = "0"+date_sql[0];
-        }
-        sql_end_date = date_sql[2]+"-"+date_sql[1]+"-"+date_sql[0];//yyyy-MM-DD
-        sql_start_date = date_sql[2]+"-"+date_sql[1]+"-"+date_sql[0];//yyyy-MM-DD
+        }*/
+
+
+        sql_end_date = endDate.toSQLformat();//yyyy-DD-MM
+        sql_start_date = startDate.toSQLformat();//yyyy-DD-MM
+        //sql_end_date = endDate.getYear()+"-"+endDate.getDay()+"-"+endDate.getMonth();//yyyy-DD-MM
+        //sql_start_date = startDate.getYear()+"-"+startDate.getDay()+"-"+startDate.getMonth();//yyyy-DD-MM
 
 
 
@@ -135,19 +147,19 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         final Calendar c = Calendar.getInstance();
         int mHour = c.get(Calendar.HOUR_OF_DAY);
         int mMinute = c.get(Calendar.MINUTE);
-        startDate.setHour(mHour);
-        startDate.setMinute(mMinute);
+        startDate.setHour(Integer.toString(mHour));
+        startDate.setMinute(Integer.toString(mMinute));
         calendar.add(Calendar.HOUR, 1);
         int mHourPlusOne = calendar.get(Calendar.HOUR_OF_DAY);
-        endDate.setHour(mHourPlusOne);
-        endDate.setMinute(mMinute);
+        endDate.setHour(Integer.toString(mHourPlusOne));
+        endDate.setMinute(Integer.toString(mMinute));
         String current_time = "" + mHour+":"+mMinute;
         String current_time_plus_one = "" + mHourPlusOne+":"+mMinute;
 
 
 
-        start_date_view.setText(date);
-        end_date_view.setText(date);
+        start_date_view.setText(DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime()));
+        end_date_view.setText(DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime()));
         start_time_view.setText(current_time);
         end_time_view.setText(current_time_plus_one);
 
@@ -389,8 +401,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                startDate.setHour(sHour);
-                                startDate.setMinute(sMinute);
+                                startDate.setHour(Integer.toString(sHour));
+                                startDate.setMinute(Integer.toString(sMinute));
                                 start_time_view.setText(startDate.getHour() + ":" + startDate.getMinute());
 
                                 sql_start_time = startDate.transformTime();//Transform selected time to SQLite DATETIME format HH:mm:ss
@@ -422,8 +434,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                endDate.setHour(sHour);
-                                endDate.setMinute(sMinute);
+                                endDate.setHour(Integer.toString(sHour));
+                                endDate.setMinute(Integer.toString(sMinute));
                                 end_time_view.setText(endDate.getHour() + ":" + endDate.getMinute());
 
                                 sql_end_time = endDate.transformTime(); //Transform selected time to SQLite DATETIME format HH:mm:ss
@@ -575,25 +587,24 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         if(a==1){//date de début
             start_date_view.setText(selectedDate);
 
-
-
-
-
             //Transform selected date to SQLite DATETIME format yyyy-MM-DD
-            String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
+            /*String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
             if(date[1].length() == 1){//if month = 1 for january then add 0 to have 01
                 date[1] = "0"+date[1];
             }
             if(date[0].length() == 1){//if day = 1 then add 0 to have 01
                 date[0] = "0"+date[0];
-            }
+            }*/
+
+            //String yDate[] = DateFormat.getDateInstance(DateFormat.FULL).format(mCalender.getTime()).split(", ");;
+            String date = format.format(mCalender.getTime());
+            startDate.setYear(date.split("/")[0]);
+            startDate.setDay(date.split("/")[2]);
+            startDate.setMonth(date.split("/")[1]);
 
 
-            startDate.setYear(Integer.parseInt(date[2]));
-            startDate.setDay(Integer.parseInt(date[1]));
-            startDate.setMonth(Integer.parseInt(date[0]));
-
-            sql_start_date = date[2]+"-"+date[1]+"-"+date[0];;//yyyy-MM-DD
+            sql_start_date = startDate.toSQLformat();
+            //sql_start_date = date[2]+"-"+date[1]+"-"+date[0];;//yyyy-DD-MM
             Log.d("Selected start date", sql_start_date);
 
             if(dateConflict(endDate,startDate)){
@@ -608,21 +619,26 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
             end_date_view.setText(selectedDate);
 
             //Transform selected date to SQLite DATETIME format yyyy-MM-DD
-            String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
+            /*String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
             if(date[1].length() == 1){//if month = 1 for january then add 0 to have 01
                 date[1] = "0"+date[1];
             }
             if(date[0].length() == 1){//if day = 1 then add 0 to have 01
                 date[0] = "0"+date[0];
-            }
+            }*/
 
-            endDate.setYear(Integer.parseInt(date[2]));
-            endDate.setDay(Integer.parseInt(date[1]));
-            endDate.setMonth(Integer.parseInt(date[0]));
+            //To get the year in format YYYY
+            String yDate[] = DateFormat.getDateInstance(DateFormat.FULL).format(mCalender.getTime()).split(", ");;
+            Log.d("End date full format", yDate.toString());
+            String date = format.format(mCalender.getTime());
+            Log.d("End date custom format", date.toString());
+            endDate.setYear(date.split("/")[0]);
+            endDate.setDay(date.split("/")[2]);
+            endDate.setMonth(date.split("/")[1]);
 
 
-
-            sql_end_date = date[2]+"-"+date[1]+"-"+date[0];
+            sql_end_date = endDate.toSQLformat();
+            //sql_end_date = date[2]+"-"+date[1]+"-"+date[0];//yyyy-DD-MM
             //Toast.makeText(RdvActivity.this, "SQL end dare "+sql_end_date, Toast.LENGTH_SHORT).show();
             Log.d("Selected end date", sql_end_date);
             if(dateConflict(endDate,startDate)){
@@ -642,17 +658,25 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
 
     public Boolean dateConflict(Date endDate, Date startDate){//Check if the endDate is < to the startDate for the date
-        Log.d("End date ", startDate.getYear() + ", " + startDate.getMonth() + ", " + startDate.getDay());
-        Log.d("Start date ", endDate.getYear() + ", " + endDate.getMonth() + ", " + endDate.getDay());
-        if(endDate.getYear()<startDate.getYear()){
+        Log.d("Start date ", startDate.getYear() + ", " + startDate.getMonth() + ", " + startDate.getDay());
+        Log.d("End date ", endDate.getYear() + ", " + endDate.getMonth() + ", " + endDate.getDay());
+        int endYear = Integer.parseInt(endDate.getYear());
+        int endMonth = Integer.parseInt(endDate.getMonth());
+        int endDay = Integer.parseInt(endDate.getDay());
+
+        int startYear = Integer.parseInt(startDate.getYear());
+        int startMonth = Integer.parseInt(startDate.getMonth());
+        int startDay = Integer.parseInt(startDate.getDay());
+
+        if(endYear<startYear){
             return true;
-        }else if (endDate.getYear()==startDate.getYear()){
-            if (endDate.getMonth()<startDate.getMonth()){
+        }else if (endYear==startYear){
+            if (endMonth<startMonth){
                 return true;
-            }else if (endDate.getMonth()==startDate.getMonth()){
-                if(endDate.getDay()<startDate.getDay()){
+            }else if (endMonth==startMonth){
+                if(endDay<startDay){
                     return true;
-                }else if(endDate.getDay()==startDate.getDay()){
+                }else if(endDay==startDay){
                     sameDay=true;
                     return false;
                 }
@@ -666,13 +690,20 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         Log.d("Endate", endDate.getHour() + "h " + endDate.getMinute() + "min");
         Log.d("Startdate", startDate.getHour() + "h " + startDate.getMinute() + "min");
         Log.d("Sameday", sameDay.toString());
+
+        int endHour = Integer.parseInt(endDate.getHour());
+        int endMin = Integer.parseInt(endDate.getMinute());
+
+        int startHour = Integer.parseInt(startDate.getHour());
+        int startMin = Integer.parseInt(startDate.getMinute());
+
         if(sameDay){
-            if (endDate.getHour()<startDate.getHour()){
+            if (endHour<startHour){
                 return true;
-            }else if (endDate.getHour()==startDate.getHour()){
-                if (endDate.getMinute()<startDate.getMinute()){
+            }else if (endHour==startHour){
+                if (endMin<startMin){
                     return true;
-                }else if (endDate.getMinute()==startDate.getMinute()){
+                }else if (endMin==startMin){
                     return false;
                 }
             }

@@ -359,9 +359,9 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                startDate.setHour(sHour);
-                                startDate.setMinute(sMinute);
-                                start_time_view.setText(sHour + ":" + sMinute);
+                                startDate.setHour(Integer.toString(sHour));
+                                startDate.setMinute(Integer.toString(sMinute));
+                                start_time_view.setText(startDate.getHour() + ":" + startDate.getMinute());
 
 
                                 //Transform selected time to SQLite DATETIME format HH:mm:ss
@@ -398,9 +398,9 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                endDate.setHour(sHour);
-                                endDate.setMinute(sMinute);
-                                end_time_view.setText(sHour + ":" + sMinute);
+                                endDate.setHour(Integer.toString(sHour));
+                                endDate.setMinute(Integer.toString(sMinute));
+                                end_time_view.setText(startDate.getHour() + ":" + startDate.getMinute());
 
 
 
@@ -559,9 +559,9 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
             Log.d("Selected start date", sql_start_date2 + ", " + sql_start_date2.split("/")[2]);
 
 
-            startDate.setYear(Integer.parseInt(sql_start_date2.split("/")[2]));
-            startDate.setDay(Integer.parseInt(sql_start_date2.split("/")[1]));
-            startDate.setMonth(Integer.parseInt(sql_start_date2.split("/")[0]));
+            startDate.setYear(sql_start_date2.split("/")[2]);
+            startDate.setDay(sql_start_date2.split("/")[1]);
+            startDate.setMonth(sql_start_date2.split("/")[0]);
 
             //Transform selected date to SQLite DATETIME format yyyy-MM-DD
             String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
@@ -592,9 +592,9 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
             String sql_end_date2 = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime());//mm/dd/yyyy
             Log.d("Selected end date", sql_end_date2);
 
-            endDate.setYear(Integer.parseInt(sql_end_date2.split("/")[2]));
-            endDate.setDay(Integer.parseInt(sql_end_date2.split("/")[1]));
-            endDate.setMonth(Integer.parseInt(sql_end_date2.split("/")[0]));
+            endDate.setYear(sql_end_date2.split("/")[2]);
+            endDate.setDay(sql_end_date2.split("/")[1]);
+            endDate.setMonth(sql_end_date2.split("/")[0]);
             if(dateConflict(endDate,startDate)){
                 sql_start_date2=sql_end_date2;
                 start_date_view.setText(selectedDate);
@@ -611,35 +611,53 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
     }
 
 
-    public Boolean dateConflict(Date endDate, Date startDate){
-        Log.d("End date ", startDate.getYear() + ", " + startDate.getMonth() + ", " + startDate.getDay());
-        Log.d("Start date ", endDate.getYear() + ", " + endDate.getMonth() + ", " + endDate.getDay());
-            if(endDate.getYear()<startDate.getYear()){
+    public Boolean dateConflict(Date endDate, Date startDate){//Check if the endDate is < to the startDate for the date
+        Log.d("Start date ", startDate.getYear() + ", " + startDate.getMonth() + ", " + startDate.getDay());
+        Log.d("End date ", endDate.getYear() + ", " + endDate.getMonth() + ", " + endDate.getDay());
+        int endYear = Integer.parseInt(endDate.getYear());
+        int endMonth = Integer.parseInt(endDate.getMonth());
+        int endDay = Integer.parseInt(endDate.getDay());
+
+        int startYear = Integer.parseInt(startDate.getYear());
+        int startMonth = Integer.parseInt(startDate.getMonth());
+        int startDay = Integer.parseInt(startDate.getDay());
+
+        if(endYear<startYear){
+            return true;
+        }else if (endYear==startYear){
+            if (endMonth<startMonth){
                 return true;
-            }else if (endDate.getYear()==startDate.getYear()){
-                if (endDate.getMonth()<startDate.getMonth()){
+            }else if (endMonth==startMonth){
+                if(endDay<startDay){
                     return true;
-                }else if (endDate.getMonth()==startDate.getMonth()){
-                    if(endDate.getDay()<startDate.getDay()){
-                        return true;
-                    }else if(endDate.getDay()==startDate.getDay()){
-                        sameDay=true;
-                        return false;
-                    }
+                }else if(endDay==startDay){
+                    sameDay=true;
+                    return false;
                 }
             }
+        }
 
-            return false;
+        return false;
     }
 
-    private Boolean timeConflict(Date endDate, Date startDate, Boolean sameDay){
+    private Boolean timeConflict(Date endDate, Date startDate, Boolean sameDay){//Check if the endDate is < to the startDate for the time
+        Log.d("Endate", endDate.getHour() + "h " + endDate.getMinute() + "min");
+        Log.d("Startdate", startDate.getHour() + "h " + startDate.getMinute() + "min");
+        Log.d("Sameday", sameDay.toString());
+
+        int endHour = Integer.parseInt(endDate.getHour());
+        int endMin = Integer.parseInt(endDate.getMinute());
+
+        int startHour = Integer.parseInt(startDate.getHour());
+        int startMin = Integer.parseInt(startDate.getMinute());
+
         if(sameDay){
-            if (endDate.getHour()<startDate.getHour()){
+            if (endHour<startHour){
                 return true;
-            }else if (endDate.getHour()==startDate.getHour()){
-                if (endDate.getMinute()<startDate.getMinute()){
+            }else if (endHour==startHour){
+                if (endMin<startMin){
                     return true;
-                }else if (endDate.getMinute()==startDate.getMinute()){
+                }else if (endMin==startMin){
                     return false;
                 }
             }

@@ -1,58 +1,58 @@
 package com.example.finalproject;
 
 public class Date {
-    int year;
-    int month;
-    int day;
-    int hour;
-    int minute;
+    String year;
+    String month;
+    String day;
+    String hour;
+    String minute;
 
     public Date() {
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
-    public int getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(String day) {
         this.day = day;
     }
 
-    public int getHour() {
+    public String getHour() {
         return hour;
     }
 
-    public void setHour(int hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 
-    public int getMinute() {
+    public String getMinute() {
         return minute;
     }
 
-    public void setMinute(int minute) {
+    public void setMinute(String minute) {
         this.minute = minute;
     }
 
     public String transformTime(){ //Transform selected time to SQLite DATETIME format HH:mm:ss
-        String StringHour = Integer.toString(this.getHour());
-        String StringMinute = Integer.toString(this.getMinute());
+        String StringHour = this.getHour();
+        String StringMinute = this.getMinute();
         if( StringHour.length() == 1){//if hour = 1  then add 0 to have 01
             StringHour = "0"+StringHour;
         }
@@ -63,5 +63,9 @@ public class Date {
 
 
         return StringHour + ":" + StringMinute+":00";
+    }
+
+    public String toSQLformat(){//yyyy-DD-MM
+        return this.getYear()+"-"+this.getMonth() +"-"+this.getDay();
     }
 }
