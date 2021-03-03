@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(View v) {
                 Bundle extras = new Bundle();
                 extras.putInt("user_id", user_id_db);
+                extras.putString("clicked_date", clicked_date);
                 extras.putString("user_name", listeDeroulante.getItemAtPosition(user_id_list).toString().trim());
 
                 Intent i = new Intent(getApplicationContext(), RdvActivity.class).putExtras(extras);

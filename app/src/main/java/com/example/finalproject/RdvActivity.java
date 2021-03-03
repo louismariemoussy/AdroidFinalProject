@@ -55,6 +55,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
      String sql_start_date2;
 
+     //Format of date
     SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 
 
@@ -66,25 +67,37 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rdv);
 
+        //Get data from main activity
+        Bundle extras = getIntent().getExtras();
+        String clicked_date = extras.getString("clicked_date");
+        int user_id_db = extras.getInt("user_id");
+        String user_name = extras.getString("user_name");
+
         Calendar calendar = Calendar.getInstance();
 
 
-
-
-        //String date = DateFormat.getDateInstance().format(calendar.getTime());
         String date_init = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime());
         //String time = DateFormat.getDateInstance().format(calendar.getTime());
         String date = format.format(calendar.getTime());
         //Initialize value of startDate
-        Log.d("Init start date", date_init + ", " + date);
-        startDate.setYear(date.split("/")[0]);
-        startDate.setDay(date.split("/")[2]);
-        startDate.setMonth(date.split("/")[1]);
+        Log.d("Init start date", date_init + ", " + date +", clicked date :" + clicked_date);
+
+        if (!clicked_date.isEmpty()){//To set the date to the date clicked
+            startDate.setYear(clicked_date.split("-")[0]);
+            startDate.setMonth(clicked_date.split("-")[1]);
+            startDate.setDay(clicked_date.split("-")[2]);
+        }else {
+            startDate.setYear(date.split("/")[0]);
+            startDate.setDay(date.split("/")[2]);
+            startDate.setMonth(date.split("/")[1]);
+        }
+
+
 
         //Initialize value of endDate
-        endDate.setYear(date.split("/")[0]);
-        endDate.setDay(date.split("/")[2]);
-        endDate.setMonth(date.split("/")[1]);
+        endDate.setYear(startDate.getYear());
+        endDate.setDay(startDate.getDay());
+        endDate.setMonth(startDate.getMonth());
 
         //get the current date to init sql start and end date
         /*String date_sql[]= DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()).split("/");//dd/mm/yyyy
@@ -102,16 +115,17 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         //sql_start_date = startDate.getYear()+"-"+startDate.getDay()+"-"+startDate.getMonth();//yyyy-DD-MM
 
 
-
+        //Set the clicked or current time to the view
+        calendar.set(Calendar.YEAR,Integer.parseInt(startDate.getYear()));
+        calendar.set(Calendar.MONTH,Integer.parseInt(startDate.getMonth()));
+        calendar.set(Calendar.DAY_OF_MONTH,Integer.parseInt(startDate.getDay()));
 
 
 
 
         //https://www.youtube.com/watch?v=Le47R9H3qow
 
-        Bundle extras = getIntent().getExtras();
-        int user_id_db = extras.getInt("user_id");
-        String user_name = extras.getString("user_name");
+
 
         //sql_PeopleList =helper.getNameById(user_id_db);
         Log.d("RDV activity", "User name: "+user_name);
