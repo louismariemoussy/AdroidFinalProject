@@ -53,7 +53,7 @@ public class DeleteUserActivity extends AppCompatActivity implements AdapterView
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Delete user
-
+                                helper.deleteEventsByName(choose_user.getItemAtPosition(id_selected-1).toString().trim());
                                 helper.deleteByName(choose_user.getItemAtPosition(id_selected-1).toString().trim());
                                 startActivity(new Intent(DeleteUserActivity.this, login.class));
                             }

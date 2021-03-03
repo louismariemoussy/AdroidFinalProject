@@ -149,6 +149,14 @@ class myDbAdapter {
         return  count;
     }
 
+    public  int deleteEventsByName(String Name)
+    {
+        SQLiteDatabase db = myhelper.getWritableDatabase();
+        String[] whereArgs ={this.getIdByName(Name)};
+        int count =db.delete(myDbHelper.TABLE_NAME_LINK , myDbHelper.USER_ID+" = ?", whereArgs);
+        return  count;
+    }
+
     public int updateName(String oldName , String newName)
     {
         SQLiteDatabase db = myhelper.getWritableDatabase();
