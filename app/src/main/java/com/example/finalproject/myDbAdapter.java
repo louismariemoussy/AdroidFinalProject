@@ -222,7 +222,7 @@ class myDbAdapter {
     }
 
     //---------ADD AN EVENT-------------------------------------------------------------------------
-    public long updateRDV(String title, String start_date, String end_date, boolean family,  int creator, String description, String people)
+    public long updateRDV(String title, String start_date, String end_date, boolean family,  int creator, String description, String people, String last_start, String last_end)
     {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValuesRDV = new ContentValues();
@@ -239,7 +239,7 @@ class myDbAdapter {
         contentValuesRDV.put(myDbHelper.PEOPLE, people);
         //contentValues.put(myDbHelper., );
 
-        String[] whereArgs = new String [] {end_date,start_date};
+        String[] whereArgs = new String [] {last_end,last_start};
 
         long id = dbb.update(myDbHelper.TABLE_NAME_RDV, contentValuesRDV , myDbHelper.END_DATE+"= ? AND " + myDbHelper.START_DATE+"= ?", whereArgs);
 

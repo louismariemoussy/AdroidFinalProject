@@ -102,6 +102,8 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
         sql_end_date = endDate.toSQLformat();//yyyy-DD-MM
         sql_start_date = startDate.toSQLformat();//yyyy-DD-MM
 
+
+
         Log.d("String month", startDate.getMonth());
         Log.d("Int month", ""+ Integer.parseInt(startDate.getMonth()));
 
@@ -206,7 +208,8 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
         //https://www.youtube.com/watch?v=eX-TdY6bLdg
 
-
+        String last_start = sql_start_date + " " + sql_start_time;
+        String last_end = sql_end_date+ " " + sql_end_time;
 
 
         //Create popup
@@ -304,7 +307,7 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                         allID.removeAll(Arrays.asList(null,""));//remove blank
 
                         //insert into RDV TABLE
-                        long rdvID = helper.updateRDV(Title,start,end, fam[0],creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
+                        long rdvID = helper.updateRDV(Title,start,end, fam[0],creator,description,sql_PeopleList, last_start, last_end);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
 
                         //helper.createLINK((int)rdvID,allID);
@@ -338,7 +341,7 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
 
                         //insert into RDV TABLE
-                        long rdvID = helper.updateRDV(Title,start,end, fam[0],creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
+                        long rdvID = helper.updateRDV(Title,start,end, fam[0],creator,description,sql_PeopleList, last_start, last_end);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
 
                         //helper.createLINK((int)rdvID,allID);
@@ -410,20 +413,15 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                                 startDate.setMinute(Integer.toString(sMinute));
                                 start_time_view.setText(startDate.getHour() + ":" + startDate.getMinute());
 
+                                sql_start_time = startDate.transformTime();//Transform selected time to SQLite DATETIME format HH:mm:ss
 
-                                //Transform selected time to SQLite DATETIME format HH:mm:ss
-
-                                String StringHour = Integer.toString(sHour);
-                                String StringMinute = Integer.toString(sMinute);
-                                if( StringHour.length() == 1){//if hour = 1  then add 0 to have 01
-                                    StringHour = "0"+StringHour;
+                                if (timeConflict(endDate,startDate,sameDay)){
+                                    sql_end_time = sql_start_time;
+                                    end_time_view.setText(endDate.getHour() + ":" + endDate.getMinute());
+                                    Log.d("Update date","Yes");
+                                }else{
+                                    Log.d("Update date","No");
                                 }
-                                if(StringMinute.length() == 1){//if minute = 1 then add 0 to have 01
-                                    StringMinute = "0"+StringMinute; }
-
-
-
-                                sql_start_time = StringHour + ":" + StringMinute+":00";
 
 
                             }
@@ -447,23 +445,17 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 endDate.setHour(Integer.toString(sHour));
                                 endDate.setMinute(Integer.toString(sMinute));
-                                end_time_view.setText(startDate.getHour() + ":" + startDate.getMinute());
+                                end_time_view.setText(endDate.getHour() + ":" + endDate.getMinute());
 
+                                sql_end_time = endDate.transformTime(); //Transform selected time to SQLite DATETIME format HH:mm:ss
 
-
-                                //Transform selected time to SQLite DATETIME format HH:mm:ss
-
-                                String StringHour = Integer.toString(sHour);
-                                String StringMinute = Integer.toString(sMinute);
-                                            if( StringHour.length() == 1){//if lenght = 1  then add 0 to have 01
-                                                StringHour = "0"+StringHour;
-                                            }
-                                            if(StringMinute.length() == 1){//if min = 1 then add 0 to have 01
-                                                StringMinute = "0"+StringMinute; }
-
-
-
-                                sql_end_time = StringHour + ":" + StringMinute+":00";
+                                if (timeConflict(endDate,startDate,sameDay)){
+                                    sql_start_time = sql_end_time;
+                                    start_time_view.setText(endDate.getHour() + ":" + endDate.getMinute());
+                                    Log.d("Update date","Yes");
+                                }else{
+                                    Log.d("Update date","No");
+                                }
                             }
                         }, hour, minutes, true);
                 picker.show();
