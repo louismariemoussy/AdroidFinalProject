@@ -443,7 +443,8 @@ class myDbAdapter {
     {
         SQLiteDatabase db = myhelper.getWritableDatabase();
 
-        String query = "SELECT "+ myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.TITLE +", "+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.START_DATE +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.END_DATE +", " + myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.OBJECT +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.DESCR +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.PEOPLE +" FROM "+ myDbHelper.TABLE_NAME_RDV+" INNER JOIN "+myDbHelper.TABLE_NAME_LINK+" ON "+myDbHelper.TABLE_NAME_LINK+"."+myDbHelper.RDV_ID+"="+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.RID+" WHERE "+myDbHelper.TABLE_NAME_LINK+"."+myDbHelper.USER_ID+"="+user_id+" AND "+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.START_DATE+" LIKE \'"+date+"%\'";
+        String query = "SELECT "+ myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.TITLE +", "+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.START_DATE +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.END_DATE +", " + myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.OBJECT +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.DESCR +", " +myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.PEOPLE +" FROM "+ myDbHelper.TABLE_NAME_RDV+" INNER JOIN "+myDbHelper.TABLE_NAME_LINK+" ON "+myDbHelper.TABLE_NAME_LINK+"."+myDbHelper.RDV_ID+"="+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.RID+" WHERE "+myDbHelper.TABLE_NAME_LINK+"."+myDbHelper.USER_ID+"="+user_id+" AND ("+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.START_DATE+" <= \'"+date+" 23:59:59\' AND "+myDbHelper.TABLE_NAME_RDV+"."+myDbHelper.END_DATE+" >= \'"+date+" 00:00:00')";
+        Log.d("queryTest", "getRDVwithUserIdAndDate: "+query);
         Cursor cursor = db.rawQuery( query,null);
         StringBuffer buffer= new StringBuffer();
         List<ArrayList<String>> listOfLists = new ArrayList<ArrayList<String>>();
