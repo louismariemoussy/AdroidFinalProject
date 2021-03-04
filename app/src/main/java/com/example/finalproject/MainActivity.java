@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<String> PeopleList = new ArrayList<String>();
     int user_id_db;
     int user_id_list;
+    String owner_name;//Name of the creator of the event
     String clicked_date;
 
     @Override
@@ -56,12 +57,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String name = helper.getName();
         //get user id from the login activity click
         user_id_list = getIntent().getIntExtra("user_list_id", 0);//ID for the spinner
-
-
-
-
-
-
 
 
 
@@ -95,7 +90,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         clicked_date = df.format(c);
 
-
+        //Set username
+        owner_name = listeDeroulante.getItemAtPosition(user_id_list).toString().trim();
 
 
         //btn +
@@ -213,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Initializing list view with the custom adapter
         ArrayList<rdvData> itemList = new ArrayList<rdvData>();
 
-        rdvAdapter rdvAdapter = new rdvAdapter(R.layout.rdv_card, itemList);
+        rdvAdapter rdvAdapter = new rdvAdapter(R.layout.rdv_card, itemList, getApplicationContext(), user_id_db);
         recyclerView = (RecyclerView) findViewById(R.id.RDVrecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -241,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             sDate = sDateList.get(i).split(" ");
             eDate = eDateList.get(i).split( " ");
             //Log.d("yo", "ppclc: " +PeopleList.get(i));                                // remove the last 3 character of the string here :00
-            itemList.add(new rdvData(TitleList.get(i), PeopleList.get(i), sDate[0], sDate[1].replaceAll("...$",""), eDate[0], eDate[1].replaceAll("...$",""),ObjList.get(i),DesList.get(i)));
+            itemList.add(new rdvData(TitleList.get(i), PeopleList.get(i), sDate[0], sDate[1].replaceAll("...$",""), eDate[0], eDate[1].replaceAll("...$",""),ObjList.get(i),DesList.get(i), owner_name));
         }
 
     }

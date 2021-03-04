@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -53,6 +54,9 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
      String sql_start_date2;
 
+    //Format of date
+    SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+
 
 
     private ArrayList<Integer> AllName;
@@ -62,47 +66,63 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rdv);
 
-        Calendar calendar = Calendar.getInstance();
-        String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-        //String time = DateFormat.getDateInstance().format(calendar.getTime());
+        //Retrieve the data of the RDV
+        rdvData rdv_data = (rdvData) getIntent().getSerializableExtra("rdv_data");
 
-        //get the current date to init sql start and end date
-        String date_sql[]= DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()).split("/");//dd/mm/yyyy
-        if(date_sql[1].length() == 1){//if month = 1 for january then add 0 to have 01
-            date_sql[1] = "0"+date_sql[1];
-        }
-        if(date_sql[0].length() == 1){//if day = 1 then add 0 to have 01
-            date_sql[0] = "0"+date_sql[1];
-        }
-        sql_end_date = date_sql[2]+"-"+date_sql[1]+"-"+date_sql[0];//yyyy-MM-DD
-        sql_start_date = date_sql[2]+"-"+date_sql[1]+"-"+date_sql[0];//yyyy-MM-DD
+        String user_name = rdv_data.getowner_name();
+        helper = new myDbAdapter(this);
+        int user_id_db = Integer.parseInt(helper.getIdByName(user_name));
 
-
-
-
-
-
-
-        //https://www.youtube.com/watch?v=Le47R9H3qow
-
-        Bundle extras = getIntent().getExtras();
-        int user_id_db = extras.getInt("user_id");
-        String user_name = extras.getString("user_name");
-
-        //sql_PeopleList =helper.getNameById(user_id_db);
-        Log.d("RDV activity", "User name: "+user_name);
+        Log.d("RDV activity", "User name: "+user_name +"; RDV title" + rdv_data.getTitle());
         sql_PeopleList = user_name;
 
-        //int user_id_db = getIntent().getIntExtra("user_id", 0);//get the user id in the db
+        Calendar calendar = Calendar.getInstance();
 
 
+        String date_init = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime());
+        String date = format.format(calendar.getTime());
+        String end_date_value = rdv_data.getRdv_end_date();
+        String start_date_value = rdv_data.getRdv_start_date();
+
+        //Initialize value of startDate with actual data
+        Log.d("Start date", start_date_value + ", Endate " + end_date_value);
+
+        startDate.setYear(start_date_value.split("-")[0]);
+        startDate.setMonth(start_date_value.split("-")[1]);
+        startDate.setDay(start_date_value.split("-")[2]);
+
+
+
+        //Initialize value of endDate with actual data
+        endDate.setYear(end_date_value.split("-")[0]);
+        endDate.setMonth(end_date_value.split("-")[1]);
+        endDate.setDay(end_date_value.split("-")[2]);
+
+
+        sql_end_date = endDate.toSQLformat();//yyyy-DD-MM
+        sql_start_date = startDate.toSQLformat();//yyyy-DD-MM
+
+
+        //Set the current start time to the view
+        calendar.set(Calendar.YEAR,Integer.parseInt(startDate.getYear()));
+        calendar.set(Calendar.MONTH,Integer.parseInt(startDate.getMonth()));
+        calendar.set(Calendar.DAY_OF_MONTH,Integer.parseInt(startDate.getDay()));
+
+        //Set the current end time to the view
+        Calendar eCalendar = Calendar.getInstance();
+        eCalendar.set(Calendar.YEAR,Integer.parseInt(endDate.getYear()));
+        eCalendar.set(Calendar.MONTH,Integer.parseInt(endDate.getMonth()));
+        eCalendar.set(Calendar.DAY_OF_MONTH,Integer.parseInt(endDate.getDay()));
 
         Button start_date = findViewById(R.id.btnSetDate);
         TextView start_date_view = findViewById(R.id.txtStartDate);
         TextView start_time_view = findViewById(R.id.txtStartTime);
         TextView end_date_view = findViewById(R.id.txtEndDate);
         TextView end_time_view = findViewById(R.id.txtEndTime);
+
         Switch family_switch = findViewById(R.id.Familywitch);
+        final boolean[] fam = new boolean[1];
+
         TextView family_check =findViewById(R.id.FamilyCheck);
         TextView family_selected = findViewById(R.id.FamilySelected);
         EditText title = findViewById(R.id.title_rdv);
@@ -111,8 +131,22 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
         add_btn.setText("Modify");
 
+        //Set title and desc to the current one
+        title.setText(rdv_data.getTitle());
+        descr.setText(rdv_data.getRdv_note());
+
+        //Set the family cursor to the stored value
+        Log.d("Family value=", rdv_data.getRdv_onj());
+        if (Integer.parseInt(rdv_data.getRdv_onj())==1){
+            family_switch.setChecked(true);
+            fam[0] = true;
+            family_check.setVisibility(View.INVISIBLE);
+            family_selected.setVisibility(View.INVISIBLE);
+        }else{
+            family_switch.setChecked(false);
+        }
+
         //to get name in the db
-        helper = new myDbAdapter(this);
         String name = helper.getName();
 
          String[] nameList = (name.replaceAll("\\s+$", "")).split(" ");
@@ -121,25 +155,28 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
          boolean[] checkedMembers = new boolean[nameList.length];
 
          //INIT TIME
-        // Get Current Time
-        final Calendar c = Calendar.getInstance();
-        int mHour = c.get(Calendar.HOUR_OF_DAY);
-        int mMinute = c.get(Calendar.MINUTE);
-        calendar.add(Calendar.HOUR, 1);
-        int mHourPlusOne = calendar.get(Calendar.HOUR_OF_DAY);
-        String current_time = "" + mHour+":"+mMinute;
-        String current_time_plus_one = "" + mHourPlusOne+":"+mMinute;
+        // Get Stored Time
+        String end_time_value = rdv_data.getRdv_end_time();
+        String start_time_value = rdv_data.getRdv_start_time();
+        startDate.setHour(start_time_value.split(":")[0]);
+        startDate.setMinute(start_time_value.split(":")[1]);
+
+        endDate.setHour(end_time_value.split(":")[0]);
+        endDate.setMinute(end_time_value.split(":")[1]);
+
+        String current_time = "" + startDate.getHour()+":"+startDate.getMinute();
+        String current_time_plus_one = "" + endDate.getHour()+":"+endDate.getMinute();
 
 
 
-        start_date_view.setText(date);
-        end_date_view.setText(date);
+        start_date_view.setText(DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime()));
+        end_date_view.setText(DateFormat.getDateInstance(DateFormat.FULL).format(eCalendar.getTime()));
         start_time_view.setText(current_time);
         end_time_view.setText(current_time_plus_one);
 
         //Transform current time to SQLite DATETIME format HH:mm:ss
-        String StringHour = Integer.toString(mHour);
-        String StringMinute = Integer.toString(mMinute);
+        String StringHour = startDate.getHour();
+        String StringMinute = startDate.getMinute();
         if( StringHour.length() == 1){//if hour = 1  then add 0 to have 01
             StringHour = "0"+StringHour;
         }
@@ -147,11 +184,14 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
             StringMinute = "0"+StringMinute; }
         sql_start_time = StringHour + ":" + StringMinute+":00";
         //Transform current time to SQLite DATETIME format HH:mm:ss
-        String StringHourPlusOne = Integer.toString(mHourPlusOne);
-        if( StringHourPlusOne.length() == 1){//if lenght = 1  then add 0 to have 01
-            StringHourPlusOne = "0"+StringHourPlusOne;
+        String StringHourEnd = endDate.getHour();
+        String StringMinuteEnd = endDate.getMinute();
+        if( StringHourEnd.length() == 1){//if lenght = 1  then add 0 to have 01
+            StringHourEnd = "0"+StringHourEnd;
         }
-        sql_end_time = StringHourPlusOne + ":" + StringMinute+":00";
+        if(StringMinuteEnd.length() == 1){//if minute = 1 then add 0 to have 01
+            StringMinuteEnd = "0"+StringMinuteEnd; }
+        sql_end_time = StringHourEnd + ":" + StringMinuteEnd+":00";
 
 
 
@@ -210,8 +250,8 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                     String Title = title.getText().toString();
                     String start = sql_start;
                     String end = sql_end;
-                    boolean fam = family_switch.isChecked();
                     int creator = user_id_db;
+                    fam[0] = family_switch.isChecked();
                     String description = descr.getText().toString();
 
 
@@ -223,7 +263,7 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                     //get id of the new item in RDV TABLE
                     //get if a family event or get all the people
                     //insert in LINK TABLE   createLINK(int rdvID, String userID[])
-                    if(fam == true){
+                    if(fam[0] == true){
                         //get all the  name
                         String name = helper.getName();
                         ArrayList<String> UserList = new ArrayList<>();
@@ -257,13 +297,13 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                         allID.removeAll(Arrays.asList(null,""));//remove blank
 
                         //insert into RDV TABLE
-                        long rdvID = helper.insertRDV(Title,start,end,fam,creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
+                        long rdvID = helper.updateRDV(Title,start,end, fam[0],creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
 
                         helper.createLINK((int)rdvID,allID);
                         //Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
 
-                        Toast.makeText(ModifyRdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ModifyRdvActivity.this, "RDV Modified ", Toast.LENGTH_SHORT).show();
                         finish();
 
 
@@ -291,12 +331,12 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
 
                         //insert into RDV TABLE
-                        long rdvID = helper.insertRDV(Title,start,end,fam,creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
+                        long rdvID = helper.updateRDV(Title,start,end, fam[0],creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
 
                         helper.createLINK((int)rdvID,allID);
                         //Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
-                        Toast.makeText(ModifyRdvActivity.this, "RDV created ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ModifyRdvActivity.this, "RDV modified ", Toast.LENGTH_SHORT).show();
 
                         finish();
 

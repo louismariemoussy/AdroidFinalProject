@@ -3,10 +3,13 @@ package com.example.finalproject;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -20,10 +23,16 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
     //All methods in this adapter are required for a bare minimum recyclerview adapter
     private int listItemLayout;
     private ArrayList<rdvData> itemList;
+    private Context context;
+    private int user_id;
+    Intent toModifyRDV;
+
     // Constructor of the class
-    public rdvAdapter(int layoutId, ArrayList<rdvData> itemList) {
+    public rdvAdapter(int layoutId, ArrayList<rdvData> itemList, Context context, int user_id) {
         listItemLayout = layoutId;
+        this.user_id = user_id;
         this.itemList = itemList;
+        this.context = context;
     }
 
     // get the size of the list
@@ -61,6 +70,10 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
         holder.rdv_note.setText(itemList.get(listPosition).getRdv_note());
 
 
+        toModifyRDV = new Intent(context, ModifyRdvActivity.class);
+        toModifyRDV.putExtra("rdv_data", (rdvData) itemList.get(listPosition));
+        toModifyRDV.putExtra("user_id", user_id);
+
 
 
     }
@@ -73,8 +86,12 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
         TextView rdv_start_time;
         TextView rdv_end_date;
         TextView rdv_end_time;
+
+        Button rdv_modify_button;
+
         String rdv_obj;
         TextView rdv_note;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -99,6 +116,14 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
                     = (TextView)itemView
                     .findViewById(R.id.rdv_note);
 
+            rdv_modify_button = (Button)itemView.findViewById(R.id.Modify_RDV);
+            rdv_modify_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(toModifyRDV);
+                }
+            });
+
 
         }
         @Override
@@ -109,6 +134,7 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
             if(rdv_note.getText().length() != 0){
                 if(rdv_note.getVisibility() == View.VISIBLE ){
                     rdv_note.setVisibility(View.GONE);
+
                 }else{
                     //rdv_note.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);//add line under text
                     rdv_note.setVisibility(View.VISIBLE);

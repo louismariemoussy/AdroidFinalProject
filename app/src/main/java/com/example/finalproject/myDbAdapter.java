@@ -221,6 +221,31 @@ class myDbAdapter {
         return id;
     }
 
+    //---------ADD AN EVENT-------------------------------------------------------------------------
+    public long updateRDV(String title, String start_date, String end_date, boolean family,  int creator, String description, String people)
+    {
+        SQLiteDatabase dbb = myhelper.getWritableDatabase();
+        ContentValues contentValuesRDV = new ContentValues();
+
+
+
+        //RDV TABLE DATA
+        contentValuesRDV.put(myDbHelper.CREATOR_ID,creator);
+        contentValuesRDV.put(myDbHelper.START_DATE,start_date);
+        contentValuesRDV.put(myDbHelper.END_DATE,end_date);
+        contentValuesRDV.put(myDbHelper.OBJECT,family);
+        contentValuesRDV.put(myDbHelper.DESCR,description);
+        contentValuesRDV.put(myDbHelper.TITLE,title);
+        contentValuesRDV.put(myDbHelper.PEOPLE, people);
+        //contentValues.put(myDbHelper., );
+
+        String[] whereArgs = new String [] {end_date,start_date};
+
+        long id = dbb.update(myDbHelper.TABLE_NAME_RDV, contentValuesRDV , myDbHelper.END_DATE+"= ? AND " + myDbHelper.START_DATE+"= ?", whereArgs);
+
+        return id;
+    }
+
     public ArrayList createLINK(int rdvID, ArrayList userID)
     {
         SQLiteDatabase dbb = myhelper.getWritableDatabase();

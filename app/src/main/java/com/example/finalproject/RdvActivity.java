@@ -77,8 +77,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
 
         String date_init = DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime());
-        //String time = DateFormat.getDateInstance().format(calendar.getTime());
         String date = format.format(calendar.getTime());
+
         //Initialize value of startDate
         Log.d("Init start date", date_init + ", " + date +", clicked date :" + clicked_date);
 
@@ -99,20 +99,9 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         endDate.setDay(startDate.getDay());
         endDate.setMonth(startDate.getMonth());
 
-        //get the current date to init sql start and end date
-        /*String date_sql[]= DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()).split("/");//dd/mm/yyyy
-        if(date_sql[1].length() == 1){//if month = 1 for january then add 0 to have 01
-            date_sql[1] = "0"+date_sql[1];
-        }
-        if(date_sql[0].length() == 1){//if day = 1 then add 0 to have 01
-            date_sql[0] = "0"+date_sql[0];
-        }*/
-
 
         sql_end_date = endDate.toSQLformat();//yyyy-DD-MM
         sql_start_date = startDate.toSQLformat();//yyyy-DD-MM
-        //sql_end_date = endDate.getYear()+"-"+endDate.getDay()+"-"+endDate.getMonth();//yyyy-DD-MM
-        //sql_start_date = startDate.getYear()+"-"+startDate.getDay()+"-"+startDate.getMonth();//yyyy-DD-MM
 
 
         //Set the clicked or current time to the view
@@ -167,8 +156,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         int mHourPlusOne = calendar.get(Calendar.HOUR_OF_DAY);
         endDate.setHour(Integer.toString(mHourPlusOne));
         endDate.setMinute(Integer.toString(mMinute));
-        String current_time = "" + mHour+":"+mMinute;
-        String current_time_plus_one = "" + mHourPlusOne+":"+mMinute;
+        String current_time = "" + startDate.getHour()+":"+startDate.getMinute();
+        String current_time_plus_one = "" + endDate.getHour()+":"+endDate.getMinute();
 
 
 
@@ -178,8 +167,8 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
         end_time_view.setText(current_time_plus_one);
 
         //Transform current time to SQLite DATETIME format HH:mm:ss
-        String StringHour = Integer.toString(mHour);
-        String StringMinute = Integer.toString(mMinute);
+        String StringHour = startDate.getHour();
+        String StringMinute = startDate.getMinute();
         if( StringHour.length() == 1){//if hour = 1  then add 0 to have 01
             StringHour = "0"+StringHour;
         }
@@ -187,7 +176,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
             StringMinute = "0"+StringMinute; }
         sql_start_time = StringHour + ":" + StringMinute+":00";
         //Transform current time to SQLite DATETIME format HH:mm:ss
-        String StringHourPlusOne = Integer.toString(mHourPlusOne);
+        String StringHourPlusOne = endDate.getHour();
         if( StringHourPlusOne.length() == 1){//if lenght = 1  then add 0 to have 01
             StringHourPlusOne = "0"+StringHourPlusOne;
         }

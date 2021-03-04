@@ -3,24 +3,36 @@ package com.example.finalproject;
 * The Data class is a custom java class that acts as a structure for holding the information for every item of the RecyclerView.
 * */
 
-class rdvData {
-    String title;
-    String rdv_people;
-    String rdv_start_date;
-    String rdv_start_time;
-    String rdv_end_date;
-    String rdv_end_time;
-    String rdv_onj;
-    String rdv_note;
+import java.io.Serializable;
+
+class rdvData implements Serializable {
+    private String title;
+    private String rdv_people;
+    private String rdv_start_date;
+    private String rdv_start_time;
+    private String rdv_end_date;
+    private String rdv_end_time;
+    private String rdv_onj;
+    private String rdv_note;
+    private String owner_name;
+
+    public String getowner_name() {
+        return owner_name;
+    }
+
+    public void setowner_name(String owner_name) {
+        this.owner_name = owner_name;
+    }
 
     public rdvData(String title,
-            String rdv_people,
-            String rdv_start_date,
-            String rdv_start_time,
-            String rdv_end_date,
-            String rdv_end_time,
-            String rdv_onj,
-            String rdv_note)
+                   String rdv_people,
+                   String rdv_start_date,
+                   String rdv_start_time,
+                   String rdv_end_date,
+                   String rdv_end_time,
+                   String rdv_onj,
+                   String rdv_note,
+                   String owner_name)
     {
         this.title=title;
         this.rdv_people=rdv_people;
@@ -30,6 +42,7 @@ class rdvData {
         this.rdv_end_time=rdv_end_time;
         this.rdv_onj=rdv_onj;
         this.rdv_note=rdv_note;
+        this.owner_name = owner_name;
     }
 
     public String getTitle() {
