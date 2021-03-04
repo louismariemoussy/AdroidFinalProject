@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -26,6 +27,7 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
     private Context context;
     private int user_id;
     Intent toModifyRDV;
+    //Activity contexto;
 
     // Constructor of the class
     public rdvAdapter(int layoutId, ArrayList<rdvData> itemList, Context context, int user_id) {
@@ -70,7 +72,7 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
         holder.rdv_note.setText(itemList.get(listPosition).getRdv_note());
 
 
-        toModifyRDV = new Intent(context, ModifyRdvActivity.class);
+        toModifyRDV = new Intent(context , ModifyRdvActivity.class);
         toModifyRDV.putExtra("rdv_data", (rdvData) itemList.get(listPosition));
         toModifyRDV.putExtra("user_id", user_id);
 
@@ -120,6 +122,7 @@ public class rdvAdapter extends RecyclerView.Adapter<rdvAdapter.ViewHolder> {
             rdv_modify_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    toModifyRDV.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(toModifyRDV);
                 }
             });
