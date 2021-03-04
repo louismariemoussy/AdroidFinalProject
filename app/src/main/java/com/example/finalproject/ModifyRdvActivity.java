@@ -49,7 +49,7 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
     Date startDate = new Date();
     Date endDate = new Date();
-    Boolean sameDay=false;
+    Boolean sameDay=true;
     String LIST_family_selected[];
 
      String sql_start_date2;
@@ -101,6 +101,13 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
         sql_end_date = endDate.toSQLformat();//yyyy-DD-MM
         sql_start_date = startDate.toSQLformat();//yyyy-DD-MM
+
+
+        if (sql_end_date==sql_start_date){
+            sameDay=true;
+        }else{
+            sameDay=false;
+        }
 
 
 
@@ -417,7 +424,7 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
                                 if (timeConflict(endDate,startDate,sameDay)){
                                     sql_end_time = sql_start_time;
-                                    end_time_view.setText(endDate.getHour() + ":" + endDate.getMinute());
+                                    end_time_view.setText(startDate.getHour() + ":" + startDate.getMinute());
                                     Log.d("Update date","Yes");
                                 }else{
                                     Log.d("Update date","No");
