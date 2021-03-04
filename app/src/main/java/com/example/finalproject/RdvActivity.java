@@ -106,7 +106,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
         //Set the clicked or current time to the view
         calendar.set(Calendar.YEAR,Integer.parseInt(startDate.getYear()));
-        calendar.set(Calendar.MONTH,Integer.parseInt(startDate.getMonth()));
+        calendar.set(Calendar.MONTH,Integer.parseInt(startDate.getMonth())-1);
         calendar.set(Calendar.DAY_OF_MONTH,Integer.parseInt(startDate.getDay()));
 
 

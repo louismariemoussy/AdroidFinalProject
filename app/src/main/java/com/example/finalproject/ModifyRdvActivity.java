@@ -102,16 +102,22 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
         sql_end_date = endDate.toSQLformat();//yyyy-DD-MM
         sql_start_date = startDate.toSQLformat();//yyyy-DD-MM
 
+        Log.d("String month", startDate.getMonth());
+        Log.d("Int month", ""+ Integer.parseInt(startDate.getMonth()));
+
 
         //Set the current start time to the view
         calendar.set(Calendar.YEAR,Integer.parseInt(startDate.getYear()));
-        calendar.set(Calendar.MONTH,Integer.parseInt(startDate.getMonth()));
+        calendar.set(Calendar.MONTH,Integer.parseInt(startDate.getMonth())-1);
         calendar.set(Calendar.DAY_OF_MONTH,Integer.parseInt(startDate.getDay()));
+
+        Log.d("String month", Integer.toString(calendar.get(Calendar.MONTH)));
+        Log.d("Int month", ""+ Integer.parseInt(startDate.getMonth()));
 
         //Set the current end time to the view
         Calendar eCalendar = Calendar.getInstance();
         eCalendar.set(Calendar.YEAR,Integer.parseInt(endDate.getYear()));
-        eCalendar.set(Calendar.MONTH,Integer.parseInt(endDate.getMonth()));
+        eCalendar.set(Calendar.MONTH,Integer.parseInt(endDate.getMonth())-1);
         eCalendar.set(Calendar.DAY_OF_MONTH,Integer.parseInt(endDate.getDay()));
 
         Button start_date = findViewById(R.id.btnSetDate);
@@ -166,6 +172,7 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
         String current_time = "" + startDate.getHour()+":"+startDate.getMinute();
         String current_time_plus_one = "" + endDate.getHour()+":"+endDate.getMinute();
+
 
 
 
@@ -300,7 +307,7 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                         long rdvID = helper.updateRDV(Title,start,end, fam[0],creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
 
-                        helper.createLINK((int)rdvID,allID);
+                        //helper.createLINK((int)rdvID,allID);
                         //Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
 
                         Toast.makeText(ModifyRdvActivity.this, "RDV Modified ", Toast.LENGTH_SHORT).show();
@@ -334,7 +341,7 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
                         long rdvID = helper.updateRDV(Title,start,end, fam[0],creator,description,sql_PeopleList);//String title, String start_date, String end_date, boolean family,  int creator, String description
 
 
-                        helper.createLINK((int)rdvID,allID);
+                        //helper.createLINK((int)rdvID,allID);
                         //Toast.makeText(RdvActivity.this, "rdv id: " + rdvID + "  allID: "+allID.toString(), Toast.LENGTH_LONG).show();
                         Toast.makeText(ModifyRdvActivity.this, "RDV modified ", Toast.LENGTH_SHORT).show();
 
@@ -595,48 +602,63 @@ public class ModifyRdvActivity extends AppCompatActivity implements DatePickerDi
 
         if(a==1){//date de début
             start_date_view.setText(selectedDate);
-            sql_start_date2 = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime());//mm/dd/yyyy
-            Log.d("Selected start date", sql_start_date2 + ", " + sql_start_date2.split("/")[2]);
-
-
-            startDate.setYear(sql_start_date2.split("/")[2]);
-            startDate.setDay(sql_start_date2.split("/")[1]);
-            startDate.setMonth(sql_start_date2.split("/")[0]);
 
             //Transform selected date to SQLite DATETIME format yyyy-MM-DD
-            String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
+            /*String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
             if(date[1].length() == 1){//if month = 1 for january then add 0 to have 01
                 date[1] = "0"+date[1];
             }
             if(date[0].length() == 1){//if day = 1 then add 0 to have 01
-                date[0] = "0"+date[1];
-            }
+                date[0] = "0"+date[0];
+            }*/
 
-            sql_start_date = date[2]+"-"+date[1]+"-"+date[0];//yyyy-MM-DD
+            //String yDate[] = DateFormat.getDateInstance(DateFormat.FULL).format(mCalender.getTime()).split(", ");;
+            String date = format.format(mCalender.getTime());
+            startDate.setYear(date.split("/")[0]);
+            startDate.setDay(date.split("/")[2]);
+            startDate.setMonth(date.split("/")[1]);
+
+
+            sql_start_date = startDate.toSQLformat();
+            //sql_start_date = date[2]+"-"+date[1]+"-"+date[0];;//yyyy-DD-MM
+            Log.d("Selected start date", sql_start_date);
+
+            if(dateConflict(endDate,startDate)){
+                sql_end_date=sql_start_date;
+                end_date_view.setText(selectedDate);
+                Log.d("Update date","Yes");
+            }else{
+                Log.d("Update date","No");
+            }
 
         }else{//date de fin
             end_date_view.setText(selectedDate);
 
             //Transform selected date to SQLite DATETIME format yyyy-MM-DD
-            String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
+            /*String date[]= DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime()).split("/");//dd/mm/yyyy
             if(date[1].length() == 1){//if month = 1 for january then add 0 to have 01
                 date[1] = "0"+date[1];
             }
             if(date[0].length() == 1){//if day = 1 then add 0 to have 01
-                date[0] = "0"+date[1];
-            }
+                date[0] = "0"+date[0];
+            }*/
+
+            //To get the year in format YYYY
+            String yDate[] = DateFormat.getDateInstance(DateFormat.FULL).format(mCalender.getTime()).split(", ");;
+            Log.d("End date full format", yDate.toString());
+            String date = format.format(mCalender.getTime());
+            Log.d("End date custom format", date.toString());
+            endDate.setYear(date.split("/")[0]);
+            endDate.setDay(date.split("/")[2]);
+            endDate.setMonth(date.split("/")[1]);
 
 
-            sql_end_date = date[2]+"-"+date[1]+"-"+date[0];
+            sql_end_date = endDate.toSQLformat();
+            //sql_end_date = date[2]+"-"+date[1]+"-"+date[0];//yyyy-DD-MM
             //Toast.makeText(RdvActivity.this, "SQL end dare "+sql_end_date, Toast.LENGTH_SHORT).show();
-            String sql_end_date2 = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalender.getTime());//mm/dd/yyyy
-            Log.d("Selected end date", sql_end_date2);
-
-            endDate.setYear(sql_end_date2.split("/")[2]);
-            endDate.setDay(sql_end_date2.split("/")[1]);
-            endDate.setMonth(sql_end_date2.split("/")[0]);
+            Log.d("Selected end date", sql_end_date);
             if(dateConflict(endDate,startDate)){
-                sql_start_date2=sql_end_date2;
+                sql_start_date=sql_end_date;
                 start_date_view.setText(selectedDate);
                 Log.d("Update date","Yes");
             }else{
