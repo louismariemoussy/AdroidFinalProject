@@ -23,11 +23,39 @@ class myDbAdapter {
     //-----------------------------------USER-------------------------------------------------------
     public long insertData(String name, String phone)
     {
+        //ADD user in USER table
         SQLiteDatabase dbb = myhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(myDbHelper.NAME, name);
         contentValues.put(myDbHelper.PHONE, phone);
         long id = dbb.insert(myDbHelper.TABLE_NAME_USER, null , contentValues);
+
+
+        //add to the new user all the family event in the table LILNK
+        //1-get all family event
+        String query = "SELECT "+myDbHelper.RID  +" FROM "+ myDbHelper.TABLE_NAME_RDV+" WHERE "+myDbHelper.OBJECT+" = 1";
+        Cursor cursor = dbb.rawQuery( query,null);
+        StringBuffer buffer= new StringBuffer();
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+
+        while (cursor.moveToNext())
+        {
+            Integer FamRDVid =cursor.getInt(cursor.getColumnIndex(myDbHelper.RID));
+            list.add(FamRDVid);
+        }
+        //2-add to LINK
+        contentValues.clear();
+        ArrayList ids = new ArrayList();
+        for(int t =0; t < list.size(); t++){
+            contentValues.put(myDbHelper.RDV_ID,list.get(t));
+            contentValues.put(myDbHelper.USER_ID,id);
+            long LINKid = dbb.insert(myDbHelper.TABLE_NAME_LINK, null , contentValues);
+            ids.add(LINKid);
+            contentValues.clear();
+        }
+
+
         return id;
     }
 
