@@ -14,7 +14,9 @@
             ></activity>
         <activity android:name=".DeleteUserActivity" />
         <activity android:name=".ModifyActivity" />
-        <activity android:name=".ModifyRdvActivity" />
+        <activity android:name=".ModifyRdvActivity"
+            android:theme="@style/Theme.MonPremierProjet.Popme"
+        ></activity>
         <activity android:name=".AddUserActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login">
