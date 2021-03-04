@@ -441,7 +441,7 @@ public class RdvActivity extends AppCompatActivity implements DatePickerDialog.O
 
                                 if (timeConflict(endDate,startDate,sameDay)){
                                     sql_end_time = sql_start_time;
-                                    end_time_view.setText(endDate.getHour() + ":" + endDate.getMinute());
+                                    end_time_view.setText(startDate.getHour() + ":" + startDate.getMinute());
                                     Log.d("Update date","Yes");
                                 }else{
                                     Log.d("Update date","No");
